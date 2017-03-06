@@ -30,13 +30,13 @@ Getting started (Stata-based project)
 
 2. Use the "find in project"-functionality of your editor to search and replace the following terms:
 
-        NNN -> Your name
-        UUU -> Your affiliation
-        TTT -> The title of the project
+        Sebastian Becker -> Your name
+        University of Bonn -> Your affiliation
+        Replication - Income and Democracy by Acemoglu, Johnson, Robinson and Yared -> The title of the project
 
 3. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. Stata and a modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) need to be found on your path.
 
-4. Navigate to the folder in a shell. Execute 
+4. Navigate to the folder in a shell. Execute
 
    **(Mac, Linux)**
 
@@ -56,7 +56,7 @@ Getting started (Stata-based project)
         python waf.py build
         python waf.py install
 
-   The first command will fail if any one of the required programs cannot be found. 
+   The first command will fail if any one of the required programs cannot be found.
 
    If the second step fails, try the following in order to localise the problem (otherwise you may have many parallel processes started and it will be difficult to find out which one failed):
 
