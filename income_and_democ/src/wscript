@@ -2,7 +2,6 @@
 
 
 def build(ctx):
-    ctx.recurse('documentation')
     ctx.recurse('model_specs')
     # Adding the build group is required because the project
     # paths have to be generated first. It should not entail
@@ -14,5 +13,3 @@ def build(ctx):
     ctx.recurse('final')
     # Safety measure -- else the LaTeX scanner might fail because some
     # '.tex'-source file has not been generated.
-    ctx.add_group()
-    ctx.recurse('paper')

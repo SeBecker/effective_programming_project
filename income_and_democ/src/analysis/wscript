@@ -15,65 +15,27 @@ DIFFERENT DATASET SPECIFICATIONS FOR FIRST STAGE AND IV ESTIMATION:
     5 = PANEL_E: As Panel D with new data provided by AJR
 '''
 
+# Illustrate simple use of run_do_script for the data that underlies table
+# 1.
+
 
 def build(ctx):
 
-    def out_data(*args):
-        return ctx.path_to(ctx, 'OUT_DATA', *args)
-
-    def out_models(*args):
-        return ctx.path_to(ctx, 'OUT_MODEL_SPECS', *args)
-
-    def out_analysis(*args):
-        return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
-
-    # Illustrate simple use of run_do_script for the data that underlies table 1.
     ctx(
         features='run_do_script',
-        source='regression_on_indicators.do',
+        source='regression.do',
         target=[
-            out_analysis('log', 'regression_on_indicators.log'),
-            out_analysis('regression_on_indicators_est.dta'),
-            out_analysis('regression_on_indicators_corr.dta')
+            ctx.path_to(ctx, 'OUT_ANALYSIS', 'log', 'regression.log'),
+            ctx.path_to(ctx, 'OUT_ANALYSIS', 'regression.dta'),
+            ctx.path_to(ctx, 'OUT_ANALYSIS',
+                        'fhpolrigaug_estimation_results.dta'),
+            ctx.path_to(ctx, 'OUT_ANALYSIS', 'polity4_estimation_results.dta')
         ],
-        deps=[out_data('ajrcomment_all.dta')]
+        deps=[
+            ctx.path_to(ctx, 'OUT_DATA', '5_year_panel_all.dta'),
+            ctx.path_to(ctx, 'OUT_DATA', 'annual_panel_all.dta'),
+            ctx.path_to(ctx, 'OUT_DATA', '10_year_panel_all.dta'),
+            ctx.path_to(ctx, 'OUT_DATA', '20_year_panel_all.dta'),
+            ctx.path_to(ctx, 'OUT_MODEL_SPECS', 'FHI.do')
+        ]
     )
-
-    # More complicated use: Read in the model specifications and run these things
-    # in parallel.
-    models = [
-        'baseline',
-        'rmconj',
-        'addindic',
-        'rmconj_addindic',
-        'newdata'
-    ]
-
-    for m in models:
-        for stage in 'first', 'second':
-
-            # Make a copy of the source files so that Stata can run in parallel
-            # (We have to rely on parsing the automatic log-file for error checks,
-            # these must have different names)
-            ctx(
-                features='subst',
-                source='{}_stage_estimation.do'.format(stage),
-                target='{}_stage_estimation_{}.do'.format(stage, m)
-            )
-
-            # Now run the do-file that was just copied over.
-            ctx(
-                features='run_do_script',
-                source='{}_stage_estimation_{}.do'.format(stage, m),
-                target=[
-                    out_analysis('log', '{}_stage_estimation_{}.log'.format(stage, m)),
-                    out_analysis('{}_stage_estimation_{}.dta'.format(stage, m))
-                ],
-                deps=[
-                    out_data('ajrcomment_all.dta'),
-                    out_models('{}.do'.format(m)),
-                    out_models('geography.do')
-                ],
-                name='{}_stage_estimation_{}'.format(stage, m),
-                append=m
-            )

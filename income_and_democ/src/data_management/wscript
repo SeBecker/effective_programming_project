@@ -3,12 +3,62 @@
 
 def build(ctx):
 
-    ctx(
-        features='run_do_script',
-        source='add_variables.do',
-        target=[
-            ctx.path_to(ctx, 'OUT_DATA', 'log', 'add_variables.log'),
-            ctx.path_to(ctx, 'OUT_DATA', 'ajrcomment_all.dta')
-        ],
-        deps=[ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')]
-    )
+    panel = [
+        '5_year',
+        '10_year',
+        '20_year',
+        '25_year',
+        '50_year',
+        'annual']
+
+    for p in panel:
+        ctx(
+            features='subst',
+            source='adjust_panel.do',
+            target='adjust_{}_panel.do'.format(p)
+        )
+
+        ctx(
+            features='run_do_script',
+            source='adjust_{}_panel.do'.format(p),
+            target=[
+                ctx.path_to(ctx, 'OUT_DATA', 'log',
+                            'adjust_{}_panel.log'.format(p)),
+                ctx.path_to(ctx, 'OUT_DATA', '{}_panel_all.dta'.format(p))
+            ],
+            deps=[
+                ctx.path_to(ctx, 'IN_DATA', '{}_panel.dta'.format(p))
+            ],
+            name='adjust_{}_panel.do'.format(p),
+            append=p
+        )
+
+        figures = [
+            'F1',
+            'F2',
+            'F3',
+            'F4',
+            'F5',
+            'F6']
+
+    for f in figures:
+        ctx(
+            features='subst',
+            source='copy.do',
+            target='copy_{}.do'.format(f)
+        )
+
+        ctx(
+            features='run_do_script',
+            source='copy_{}.do'.format(f),
+            target=[
+                ctx.path_to(ctx, 'OUT_DATA', 'log',
+                            'copy_{}.log'.format(f)),
+                ctx.path_to(ctx, 'OUT_DATA', '{}_all.dta'.format(f))
+            ],
+            deps=[
+                ctx.path_to(ctx, 'IN_DATA', '{}.dta'.format(f))
+            ],
+            name='copy_{}.do'.format(f),
+            append=f
+        )
