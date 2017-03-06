@@ -1,0 +1,8 @@
+{
+    "DEPVAR": "s5polity4",
+    "INDEP": "s5lrgdpch",
+    "TITLE": "Figure 3",
+    "SUBTITLE": "Change in Democracy and Change in Income, 1970-1995",
+    "YTITLE": "Freedom House Measure of Democracy",
+    "XTITLE": "Change in Log GDP per Capita (Penn World Tables)"
+}

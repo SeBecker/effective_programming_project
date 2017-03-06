@@ -1,0 +1,6 @@
+{
+    "DEPVAR1": "fhpolrigaug",
+    "DEPVAR2": "polity4",
+    "INDEP": "lrgdpch",
+    "SAMPLE": "sample"
+}

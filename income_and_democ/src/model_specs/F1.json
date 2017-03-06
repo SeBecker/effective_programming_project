@@ -1,0 +1,8 @@
+{
+    "DEPVAR": "fhpolrigaug",
+    "INDEP": "lrgdpch",
+    "TITLE": "Figure 1",
+    "SUBTITLE": "Democracy and Income, 1990s",
+    "YTITLE": "Freedom House Measure of Democracy",
+    "XTITLE": "Log GDP per Capita (Penn World Tables)"
+}

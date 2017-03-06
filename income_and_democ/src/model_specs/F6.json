@@ -1,0 +1,14 @@
+{
+    "DEPVAR1": "democ",
+    "DEPVAR2": "growth",
+    "INDEP1": "consfirstaug" ,
+    "INDEP2": "indcent",
+    "DUMMY": "rel_*",
+    "RESID1": "democresid",
+    "RESID2": "growthresid",
+    "TITLE": "Figure 6",
+    "SUBTITLE": "Change in Democracy and Change in Income, 1500-2000",
+    "T2TITLE": "Conditional on Historical Factors",
+    "YTITLE": "Change in Democracy, Independent of Historical Factors" ,
+    "XTITLE":"Change in Log GDP per Capita, Independent of Historical Factors"
+}
