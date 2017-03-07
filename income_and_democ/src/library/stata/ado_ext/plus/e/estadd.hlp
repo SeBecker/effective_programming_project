@@ -1,7 +1,7 @@
 {smcl}
-{* 13sep2013}{...}
+{* 01feb2017}{...}
 {hi:help estadd}{right:also see: {helpb esttab}, {helpb estout}, {helpb eststo}, {helpb estpost}}
-{right: {browse "http://repec.org/bocode/e/estout"}}
+{right: {browse "http://repec.sowi.unibe.ch/stata/estout/"}}
 {hline}
 
 {title:Title}
@@ -64,7 +64,7 @@ descriptives of the dependent variable
       {helpb estadd##margins:margins}{col 26}{...}
 add results from {cmd:margins} (Stata 11 or newer)
 
-    {help estadd##spost:SPost}
+    {help estadd##spost:SPost9}
       {helpb estadd##brant:brant}{col 26}{...}
 add results from {cmd:brant} (if installed)
       {helpb estadd##fitstat:fitstat}{col 26}{...}
@@ -139,19 +139,21 @@ see help {helpb ereturn}).
 
 {p 8 8 2}
 adds in scalar {cmd:e(}{it:name}{cmd:)} the evaluation of {it:exp}
-(also see help {helpb ereturn}).
+(also see help {helpb ereturn}). {it:name} must not be {cmd:b} or {cmd:V}.
 
 {p 4 8 2}
 {cmd:estadd} {cmdab:sca:lar} {cmd:r(}{it:name}{cmd:)}
 
 {p 8 8 2}
-adds in scalar {cmd:e(}{it:name}{cmd:)} the value of scalar {cmd:r(}{it:name}{cmd:)}.
+adds in scalar {cmd:e(}{it:name}{cmd:)} the value of scalar 
+{cmd:r(}{it:name}{cmd:)}. {it:name} must not be {cmd:b} or {cmd:V}.
 
 {p 4 8 2}
 {cmd:estadd} {cmdab:sca:lar} {it:name}
 
 {p 8 8 2}
-adds in scalar {cmd:e(}{it:name}{cmd:)} the the value of scalar {it:name}.
+adds in scalar {cmd:e(}{it:name}{cmd:)} the the value of scalar 
+{it:name}. {it:name} must not be {cmd:b} or {cmd:V}.
 
 {marker matrix}
 {p 4 8 2}
@@ -159,19 +161,21 @@ adds in scalar {cmd:e(}{it:name}{cmd:)} the the value of scalar {it:name}.
 
 {p 8 8 2}
 adds in matrix {cmd:e(}{it:name}{cmd:)} the evaluation of {it:matrix_expression}
-(also see help {helpb matrix define}).
+(also see help {helpb matrix define}). {it:name} must not be {cmd:b} or {cmd:V}.
 
 {p 4 8 2}
 {cmd:estadd} {cmdab:mat:rix} {cmd:r(}{it:name}{cmd:)}
 
 {p 8 8 2}
-adds in matrix {cmd:e(}{it:name}{cmd:)} a copy of matrix {cmd:r(}{it:name}{cmd:)}.
+adds in matrix {cmd:e(}{it:name}{cmd:)} a copy of matrix 
+{cmd:r(}{it:name}{cmd:)}. {it:name} must not be {cmd:b} or {cmd:V}.
 
 {p 4 8 2}
 {cmd:estadd} {cmdab:mat:rix} {it:name}
 
 {p 8 8 2}
-adds in matrix {cmd:e(}{it:name}{cmd:)} a copy of matrix {it:name}.
+adds in matrix {cmd:e(}{it:name}{cmd:)} a copy of matrix {it:name}. {it:name} 
+must not be {cmd:b} or {cmd:V}.
 
 {marker rreturn}
 {p 4 8 2}
@@ -180,7 +184,7 @@ adds in matrix {cmd:e(}{it:name}{cmd:)} a copy of matrix {it:name}.
 {p 8 8 2}
 adds in {cmd:e(}{it:name}{cmd:)} the value of scalar {cmd:r(}{it:name}{cmd:)}
 or a copy of matrix {cmd:r(}{it:name}{cmd:)}, depending on the nature of
-{cmd:r(}{it:name}{cmd:)}.
+{cmd:r(}{it:name}{cmd:)}. {it:name} must not be {cmd:b} or {cmd:V}.
 
 
 {dlgtab:Statistics for each coefficient}
@@ -371,20 +375,20 @@ standard errors are added in {cmd:e(margins_se)}. Use the {helpb estadd##opts:pr
 option to change the default prefix.
 
 {marker spost}
-{dlgtab:SPost}
+{dlgtab:SPost9}
 
 {p 4 4 2} The following subcommands are wrappers for
-commands from Long and Freese's {helpb SPost} package (see
-{browse "http://www.indiana.edu/~jslsoc/spost.htm":http://www.indiana.edu/~jslsoc/spost.htm}). Type
+commands from Long and Freese's {helpb SPost9} package (see
+{browse "http://www.indiana.edu/~jslsoc/spost9.htm"}). Type
 
         . {net "from http://www.indiana.edu/~jslsoc/stata":net from http://www.indiana.edu/~jslsoc/stata}
 
 {p 4 4 2}
-to obtain the latest {cmd:SPost} version (spost9_ado). {cmd:SPost} for Stata 8 (spostado) is not
+to obtain the {cmd:SPost9} package (spost9_ado). {cmd:SPost} for Stata 8 (spostado) is not
 supported.
 
 {p 4 4 2}For examples on using the subcommands see
-{browse "http://repec.org/bocode/e/estout/spost.html":http://repec.org/bocode/e/estout/spost.html}.
+{browse "http://repec.sowi.unibe.ch/stata/estout/spost.html"}.
 
 {marker brant}
 {p 4 8 2}
@@ -893,7 +897,7 @@ Example 3: Add standardized beta coefficients to stored estimates
 
 
 {p 4 4 2}See
-{browse "http://repec.org/bocode/e/estout":http://repec.org/bocode/e/estout}
+{browse "http://repec.sowi.unibe.ch/stata/estout/"}
 for additional examples.
 
 
@@ -911,7 +915,7 @@ current directory or somewhere else in the {cmd:adopath}
 {p 4 4 2}
 Use the subcommands provided within "estadd.ado" as a starting
 point for writing new subcommands. See
-{browse "http://repec.org/bocode/e/estout/estadd.html#estadd007":http://repec.org/bocode/e/estout/estadd.html#estadd007}
+{browse "http://repec.sowi.unibe.ch/stata/estout/estadd.html#007"}
 for an example.
 
 

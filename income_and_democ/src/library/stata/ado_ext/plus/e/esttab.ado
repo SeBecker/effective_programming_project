@@ -1,4 +1,4 @@
-*! version 2.0.6  02jun2014  Ben Jann
+*! version 2.0.9  06feb2016  Ben Jann
 *! wrapper for estout
 
 program define esttab
@@ -133,11 +133,12 @@ program define esttab
     local rtf_open0           `""'
     local rtf_close0          `""'
       local rtf_ct            `"\yr`=year(d(`cdate'))'\mo`=month(d(`cdate'))'\dy`=day(d(`cdate'))'\hr`=substr("`ctime'",1,2)'\min`=substr("`ctime'",4,2)'"'
-      local rtf_open_l1       `"`"{\rtf1`=cond("`c(os)'"=="MacOSX", "\mac", "\ansi")'\deff0 {\fonttbl{\f0\fnil Times New Roman;}}"'"'
+      local rtf_fonttbl       "\f0\fnil Times New Roman;"
+      local rtf_open_l1       `"`"{\rtf1`=cond("`c(os)'"=="MacOSX", "\mac", "\ansi")'\deff0 {\fonttbl\`rtf_fonttbl'}"'"'
       local rtf_open_l2       `" `"{\info {\author .}{\company .}{\title .}{\creatim`rtf_ct'}}"'"'
       local rtf_open_l3       `" `"\deflang1033\plain\fs24"'"'
       local rtf_open_l4       `" `"{\footer\pard\qc\plain\f0\fs24\chpgn\par}"'"'
-    local rtf_open            `"`rtf_open_l1'`rtf_open_l2'`rtf_open_l3'`rtf_open_l4'"'
+    local rtf_open            `"\`rtf_open_l1'`rtf_open_l2'`rtf_open_l3'`rtf_open_l4'"'
     local rtf_close           `""{\pard \par}" "}""'
     local rtf_caption         `"`"{\pard\keepn\ql @title\par}"'"'
     local rtf_open2           `""{""'
@@ -202,12 +203,12 @@ program define esttab
 // - tex
     local tex_open0           `""% `cdate' `ctime'" \documentclass{article} \`texpkgs' \`=cond("\`longtable'"!="","\usepackage{longtable}","")' \begin{document} """'
     local tex_close0          `""" \end{document} """'
-    local tex_open            `"\`=cond("\`longtable'"=="", "\begin{table}[htbp]\centering", `"{"')'"'
-    local tex_close           `"\`=cond("\`longtable'"=="", "\end{table}", "}")'"'
+    local tex_open            `"`"\`=cond("\`longtable'"=="", "\begin{table}[htbp]\centering", "{")'"'"'
+    local tex_close           `"`"\`=cond("\`longtable'"=="", "\end{table}", "}")'"'"'
     local tex_caption         `"\caption{@title}"'
     local tex_open2           `"\`=cond("\`longtable'"!="", "\begin{longtable}", "\begin{tabular" + cond("\`width'"=="", "}", "*}{\`width'}"))'"'
-    local tex_close2          `"\`=cond("\`longtable'"!="", "\end{longtable}", "\end{tabular" + cond("\`width'"=="", "}", "*}"))'"'
-    local tex_toprule         `"\`="\hline\hline" + cond("\`longtable'"!="", "\endfirsthead\hline\endhead\hline\endfoot\endlastfoot", "")'"'
+    local tex_close2          `"`"\`=cond("\`longtable'"!="", "\end{longtable}", "\end{tabular" + cond("\`width'"=="", "}", "*}"))'"'"'
+    local tex_toprule         `"`"\`="\hline\hline" + cond("\`longtable'"!="", "\endfirsthead\hline\endhead\hline\endfoot\endlastfoot", "")'"'"'
     local tex_midrule         `""\hline""'
     local tex_bottomrule      `""\hline\hline""'
     local tex_topgap          `""'
@@ -239,7 +240,7 @@ program define esttab
     local booktabs_caption    `"`macval(tex_caption)'"'
     local booktabs_open2      `"`macval(tex_open2)'"'
     local booktabs_close2     `"`macval(tex_close2)'"'
-    local booktabs_toprule    `"\`="\toprule" + cond("\`longtable'"!="", "\endfirsthead\midrule\endhead\midrule\endfoot\endlastfoot", "")'"'
+    local booktabs_toprule    `"`"\`="\toprule" + cond("\`longtable'"!="", "\endfirsthead\midrule\endhead\midrule\endfoot\endlastfoot", "")'"'"'
     local booktabs_midrule    `""\midrule""'
     local booktabs_bottomrule `""\bottomrule""'
     local booktabs_topgap     `"`macval(tex_topgap)'"'
@@ -300,6 +301,7 @@ program define esttab
      page PAGE2(str) ///
      ALIGNment(str asis) ///
      width(str asis) ///
+     fonttbl(str) ///
  /// other
      Noisily ///
      * ]
@@ -313,7 +315,7 @@ program define esttab
     gettoken chunk using0: using
     if `"`macval(star2)'"'!="" local star star
     foreach opt in constant gaps lines star abbrev depvars numbers parentheses ///
-        notes mtitles type outfilenoteoff {
+        notes mtitles type outfilenoteoff float {
         NotBothAllowed "``opt''" `no`opt''
     }
     NotBothAllowed "`staraux'" `nostar'
@@ -697,49 +699,70 @@ program define esttab
         local abbrev ``mode'_abbrev'
     }
     if `"`fragment'"'=="" {
+        if `"`fonttbl'"'!="" {
+            local rtf_fonttbl `"`fonttbl'"'
+        }
         if "`page'"!="" {
             if `"`page2'"'!="" {
                 local texpkgs `""\usepackage{`page2'}""'
             }
             local opening `"``mode'_open0'"'
         }
-        if `"`macval(title)'"'!="" {
-            local opening `"`macval(opening)' ``mode'_open'"'
-            if "`mode0'"=="tex" & "`star'"!="" {
+        if "`mode0'"=="tex" {
+            if (`"`macval(title)'"'!="" | "`float'"!="") & "`nofloat'"=="" {
+                local opening `"`macval(opening)' ``mode'_open'"'
+            }
+            else if "`star'"!="" {
+                local opening `"`macval(opening)' "{""'
+            }
+            if "`star'"!="" {
                 local opening `"`macval(opening)' "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}""'
             }
-            if !("`longtable'"!="" & "`mode0'"=="tex") {
+            if `"`macval(title)'"'!="" & "`longtable'"=="" {
+                local opening `"`macval(opening)' `"``mode'_caption'"'"'
+            }
+        }
+        else {
+            local opening `"`macval(opening)' ``mode'_open'"'
+            if `"`macval(title)'"'!="" {
                 local opening `"`macval(opening)' ``mode'_caption'"'
             }
         }
-        else if "`mode0'"=="tex" & "`star'"!="" {
-            local opening `"`macval(opening)' "{" "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}""'
-        }
-        else if "`mode0'"!="tex" {
-            local opening `"`macval(opening)' ``mode'_open'"'
-        }
-        local opening `"`macval(opening)' ``mode'_open2'"'
         if  "`mode0'"=="tex" {
             if `"`labcol2'"'!="" local lstubtex "lc"
             else local lstubtex "l"
             if `"`width'"'!="" local extracolsep "@{\hskip\tabcolsep\extracolsep\fill}"
-            if `"`macval(alignment)'"'!="" {
-                local opening `"`macval(opening)'{`extracolsep'`lstubtex'*{@E}{`macval(alignment)'}}"'
-            }
-            else {
-                if `nocellsopt' {
-                    MakeTeXColspec "`wide'" "`not'" "`star'" "`stardetach'" "`staraux'"
+            if `matrixmode' {
+                if `"`macval(alignment)'"'!="" {
+                    local opening `"`macval(opening)' `"``mode'_open2'{`extracolsep'`lstubtex'`macval(alignment)'}"'"'
                 }
                 else {
-                    MakeTeXColspecAlt, `cells'
+                    MakeTeXColspecMat, `anything'
+                    local opening `"`macval(opening)' `"``mode'_open2'{`extracolsep'`lstubtex'`value'}"'"'
                 }
-                local opening `"`macval(opening)'{`extracolsep'`lstubtex'*{@E}{`value'}}"'
+            }
+            else {
+                if `"`macval(alignment)'"'!="" {
+                    local opening `"`macval(opening)' `"``mode'_open2'{`extracolsep'`lstubtex'*{@E}{`macval(alignment)'}}"'"'
+                }
+                else {
+                    if `nocellsopt' {
+                        MakeTeXColspec "`wide'" "`not'" "`star'" "`stardetach'" "`staraux'"
+                    }
+                    else {
+                        MakeTeXColspecAlt, `cells'
+                    }
+                    local opening `"`macval(opening)' `"``mode'_open2'{`extracolsep'`lstubtex'*{@E}{`value'}}"'"'
+                }
             }
             if "`longtable'"!="" {
                 if `"`macval(title)'"'!="" {
-                    local opening `"`macval(opening)' ``mode'_caption'\\\"'
+                    local opening `"`macval(opening)' `"``mode'_caption'\\\"'"'
                 }
             }
+        }
+        else {
+            local opening `"`macval(opening)' ``mode'_open2'"'
         }
         if "`mode0'"=="html" {
             local brr
@@ -770,11 +793,16 @@ program define esttab
             local closing `"`macval(thenote)'"'
         }
         local closing `"`macval(closing)' ``mode'_close2'"'
-        if `"`macval(title)'"'!="" | "`mode0'"!="tex" {
-            local closing `"`macval(closing)' ``mode'_close'"'
+        if "`mode0'"=="tex" {
+            if (`"`macval(title)'"'!="" | "`float'"!="") & "`nofloat'"=="" {
+                local closing `"`macval(closing)' ``mode'_close'"'
+            }
+            else if "`star'"!="" {
+                local closing `"`macval(closing)' "}""'
+            }
         }
-        else if "`mode0'"=="tex" & "`star'"!="" {
-            local closing `"`macval(closing)' }"'
+        else {
+            local closing `"`macval(closing)' ``mode'_close'"'
         }
         if "`page'"!="" {
             local closing `"`macval(closing)' ``mode'_close0'"'
@@ -972,6 +1000,7 @@ program _more_syntax
         BRackets ///
         NONOTEs NOTEs /// without s in helpfile
         LONGtable ///
+        NOFLOAT float ///
         ONEcell ///
         NOEQLInes ///
         NOOUTFILENOTEOFF outfilenoteoff
@@ -1065,7 +1094,7 @@ program _estout_options
 end
 
 program MatrixMode
-    capt syntax [, Matrix(str asis) e(str asis) r(str asis) rename(str asis) ]
+    capt syntax [, Matrix(str asis) e(str asis) r(str asis) ]
     if _rc | `"`matrix'`e'`r'"'=="" {
         c_local matrixmode 0
         exit
@@ -1146,6 +1175,25 @@ prog CheckScalarOpt
     if _rc error 198
 end
 
+program MakeTeXColspecMat
+    capt syntax [, Matrix(str asis) e(str asis) r(str asis) ]
+    ParseMatrixOpt `matrix'`e'`r'
+    if `"`e'"'!=""      local name "e(`name')"
+    else if `"`r'"'!="" local name "r(`name')"
+    confirm matrix `name'
+    tempname bc
+    mat `bc' = `name'
+    if "`transpose'"=="" local cols = colsof(`bc')
+    else                 local cols = rowsof(`bc')
+    c_local value "*{`cols'}{c}"
+end
+program ParseMatrixOpt
+    syntax name [, Fmt(str asis) Transpose ]
+    c_local name `"`namelist'"'
+    c_local fmt `"`fmt'"'
+    c_local transpose `"`transpose'"'
+end
+
 prog MakeTeXColspec
     args wide not star detach aux
     if "`star'"!="" & "`detach'"!="" & "`aux'"=="" local value "r@{}l"
@@ -1161,11 +1209,27 @@ prog MakeTeXColspecAlt
     syntax, cells(string asis)
     local count 1
     while `count' {
+        local cells: subinstr local cells ") (" ")_(", all // preserve space in ") (" 
+        local cells: subinstr local cells "] (" "]_(", all // preserve space in ") [" 
         local cells: subinstr local cells " (" "(", all count(local count)
+    }
+    local cells: subinstr local cells ")_(" ") (", all // restore space in ") (" 
+    local cells: subinstr local cells "]_(" "] (", all // restore space in ") [" 
+    local count 1
+    while `count' {
+        local cells: subinstr local cells " [" "[", all count(local count)
+    }
+    local count 1
+    while `count' {
+        local cells: subinstr local cells " &" "&", all count(local count)
+    }
+    local count 1
+    while `count' {
+        local cells: subinstr local cells "& " "&", all count(local count)
     }
     local count 1
     while `"`macval(cells)'"'!="" {
-        gettoken row cells : cells, bind
+        gettoken row cells : cells, match(par)
         local size 0
         gettoken chunk row : row, bind
         while `"`macval(chunk)'"'!="" {

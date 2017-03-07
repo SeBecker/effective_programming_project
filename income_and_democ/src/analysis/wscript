@@ -21,21 +21,64 @@ DIFFERENT DATASET SPECIFICATIONS FOR FIRST STAGE AND IV ESTIMATION:
 
 def build(ctx):
 
-    ctx(
-        features='run_do_script',
-        source='regression.do',
-        target=[
-            ctx.path_to(ctx, 'OUT_ANALYSIS', 'log', 'regression.log'),
-            ctx.path_to(ctx, 'OUT_ANALYSIS', 'regression.dta'),
-            ctx.path_to(ctx, 'OUT_ANALYSIS',
-                        'fhpolrigaug_estimation_results.dta'),
-            ctx.path_to(ctx, 'OUT_ANALYSIS', 'polity4_estimation_results.dta')
-        ],
-        deps=[
-            ctx.path_to(ctx, 'OUT_DATA', '5_year_panel_all.dta'),
-            ctx.path_to(ctx, 'OUT_DATA', 'annual_panel_all.dta'),
-            ctx.path_to(ctx, 'OUT_DATA', '10_year_panel_all.dta'),
-            ctx.path_to(ctx, 'OUT_DATA', '20_year_panel_all.dta'),
-            ctx.path_to(ctx, 'OUT_MODEL_SPECS', 'FHI.do')
-        ]
-    )
+    models = [
+        'FHI',
+        'POL']
+
+    for p in models:
+
+        ctx(
+            features='subst',
+            source='regression.do',
+            target='{}_regression.do'.format(p)
+        )
+
+        ctx(
+            features='run_do_script',
+            source='{}_regression.do'.format(p),
+            target=[
+                ctx.path_to(ctx, 'OUT_ANALYSIS', 'log',
+                            '{}_regression.log'.format(p)),
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_regression.dta'.format(p)),
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_estimation_results.dta'.format(p)),
+            ],
+            deps=[
+                ctx.path_to(ctx, 'OUT_DATA', '5_year_panel_all.dta'),
+                ctx.path_to(ctx, 'OUT_DATA', 'annual_panel_all.dta'),
+                ctx.path_to(ctx, 'OUT_DATA', '10_year_panel_all.dta'),
+                ctx.path_to(ctx, 'OUT_DATA', '20_year_panel_all.dta'),
+                ctx.path_to(ctx, 'OUT_MODEL_SPECS', '{}.do'.format(p)),
+            ],
+            name='{}_regression'.format(p),
+            append=p
+        )
+    for f in models:
+
+        ctx(
+            features='subst',
+            source='robustness_check.do',
+            target='{}_robustness_check.do'.format(f)
+        )
+        ctx(
+            features='run_do_script',
+            source='{}_robustness_check.do'.format(f),
+            target=[
+                ctx.path_to(ctx, 'OUT_ANALYSIS', 'log',
+                            '{}_robustness_check.log'.format(f)),
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_robustness_check.dta'.format(f)),
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_robustness_check_drop.dta'.format(f)),
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_robustness_check_results.dta'.format(f))
+
+            ],
+            deps=[
+                ctx.path_to(ctx, 'OUT_DATA', '5_year_panel_all.dta'),
+                ctx.path_to(ctx, 'OUT_MODEL_SPECS', '{}.do'.format(f))
+            ],
+            name='{}_robustness_check'.format(f),
+            append=f
+        )

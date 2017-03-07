@@ -1,0 +1,9 @@
+// Read in the model controls
+
+
+include project_paths
+
+
+log using `"${PATH_OUT_FINAL}/log/`1'.log"', replace
+
+using `"${PATH_OUT_TABLES}/`lolwut'.tex"', replace

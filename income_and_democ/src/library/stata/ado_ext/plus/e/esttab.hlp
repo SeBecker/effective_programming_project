@@ -1,7 +1,7 @@
 {smcl}
-{* 02jun2014}{...}
+{* 01feb2017}{...}
 {hi:help esttab}{right:also see: {helpb estout}, {helpb eststo}, {helpb estadd}, {helpb estpost}}
-{right: {browse "http://repec.org/bocode/e/estout"}}
+{right: {browse "http://repec.sowi.unibe.ch/stata/estout/"}}
 {hline}
 
 {title:Title}
@@ -126,6 +126,8 @@ add lines at the end of the table
 set the document format ({cmd:smcl} is the default)
       {cmdab:f:ragment}{col 26}{...}
 suppress table opening and closing (LaTeX, HTML)
+      [{cmd:no}]{cmd:float}{col 26}{...}
+whether to use a float environment or not (LaTeX)
       {cmd:page}[{cmd:(}{it:packages}{cmd:)}]{col 26}{...}
 add page opening and closing (LaTeX, HTML)
       {cmdab:align:ment(}{it:string}{cmd:)}{col 26}{...}
@@ -134,6 +136,8 @@ set alignment within columns (LaTeX, HTML, RTF)
 set width of table (LaTeX, HTML)
       {cmdab:long:table}{col 26}{...}
 multi-page table (LaTeX)
+      {cmd:fonttbl(}{it:string}{cmd:)}{col 26}{...}
+set custom font table (RTF)
 
     {help esttab##output:Output}
       {cmdab:r:eplace}{col 26}{...}
@@ -434,7 +438,8 @@ default is {cmd:interaction(" $\times$ ")}.
 {cmd:title(}{it:string}{cmd:)} may be used to provide a title for the
 table. If specified, {it:string} is printed at the top of the table.
 Note that specifying a title causes the table to be set up as a
-floating object in LaTeX mode. You may want to set a label for
+floating object in LaTeX mode (unless the {cmd:nofloat} option 
+is specified). You may want to set a label for
 referencing in this case. For example, if you type
 {cmd:title(...\label{tab1})}, then "\ref{tab1}" could be used in the
 LaTeX document to point to the table.
@@ -545,6 +550,12 @@ processors.
 to be suppressed. This is relevant primarily in LaTeX and HTML mode.
 
 {p 4 8 2}
+{cmd:float} causes the table to be set up as a floating object in LaTeX mode 
+(table environment). Providing a {cmd:title()} implies {cmd:float}. Specify 
+{cmd:nofloat} to omit the float environment in this case (this is useful, e.g., 
+for LyX users).
+
+{p 4 8 2}
 {cmd:page}[{cmd:(}{it:packages}{cmd:)}] adds opening and closing code
 to define a whole LaTeX or HTML document. The default is to produce a
 raw table that can then be included into an existing LaTeX or HTML
@@ -605,6 +616,16 @@ long to fit on a single page. {cmdab:longtable} cannot be combined
 with {cmd:width()}. Make sure to load the {it:longtable} package 
 in the LaTeX document, i.e. include {cmd:\usepackage{longtable}} in the 
 document's preamble.
+
+{p 4 8 2}
+{cmd:fonttbl(}{it:string}{cmd:)} defines a custom font table in RTF. The 
+default is "{cmd:\f0\fnil Times New Roman;}". For example, typing
+
+            {com}. esttab using example.rtf, ti("\f1 The Auto Data") ///
+                fonttbl(\f0\fnil Times New Roman;\f1\fnil Arial;){txt}
+
+{p 8 8 2}
+would add a title in Arial.
 
 {marker output}
 {dlgtab:Output}
@@ -760,7 +781,7 @@ exponential format.
 {p 4 4 2}
 The following examples are intended to illustrate the basic usage of
 {cmd:esttab}.  Additional examples can be found at
-{browse "http://repec.org/bocode/e/estout"}. 
+{browse "http://repec.sowi.unibe.ch/stata/estout/"}. 
 
 {p 4 4 2} The procedure is to first fit and store some models (see {helpb eststo}) and then apply 
 {cmd:esttab} to these stored estimates:

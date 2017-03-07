@@ -1,5 +1,5 @@
 {
-    "DEPVAR": "fhpolrigaug",
+    "DEPVAR": "polity4",
     "INDEP1": "lrgdpch",
     "INDEP2": "lpop",
     "INDEP3": "education",
@@ -12,5 +12,6 @@
     "SAMPLEBALFE": "samplebalancefe",
     "SAMPLEBALGMM": "samplebalancegmm",
     "SOCIAL": "socialist",
-    "TABLETITLE": "Freedom House Measure"
+    "TABLETITLE": "Polity Measure"
+
 }

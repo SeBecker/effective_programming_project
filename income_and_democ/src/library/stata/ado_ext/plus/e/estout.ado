@@ -1,4 +1,4 @@
-*! version 3.17  02jun2014  Ben Jann
+*! version 3.21  19aug2016  Ben Jann
 
 program define estout, rclass
     version 8.2
@@ -355,7 +355,7 @@ program define estout, rclass
     CellsCheck `"`cells'"'
     if `:list sizeof incelldelimiter'==1 gettoken incelldelimiter: incelldelimiter
 
-*Special treatment of confidence intervalls
+*Special treatment of confidence intervals
     if "`level'"=="" local level $S_level
     if `level'<10 | `level'>99 {
         di as error "level(`level') invalid"
@@ -484,6 +484,14 @@ program define estout, rclass
             capt est_expand $eststo
             if !_rc {
                 local anything `"$eststo"'
+            }
+            if `'"`anything'"'!="" {
+                if `"`: e(scalars)'`: e(macros)'`: e(matrices)'`: e(functions)'"'!="" {
+                    if `: list posof `"`e(_estimates_name)'"' in anything'==0 {
+                        di as txt "(tabulating estimates stored by eststo;" ///
+                            `" specify "." to tabulate the active results)"'
+                    }
+                }
             }
         }
         if `"`anything'"'=="" local anything "."
@@ -812,7 +820,7 @@ program define estout, rclass
                         if "`vi'"=="." continue
                         local colhasstats 1
                         if "`unstack'"!="" {
-                            if `:list eq in `vi'_eqdrop' continue
+                            if `:list posof `"`eq'"' in `vi'_eqdrop' continue
                         }
                         if "`:word `m' of ``vi'_pattern''"=="0" {
                             local v: subinstr local v "`vi'" ".`vi'", word
@@ -887,11 +895,13 @@ program define estout, rclass
 
 * totcharwidth / hline
     local totcharwidth `varwidth'
+    if c(stata_version)>=14 local length udstrlen
+    else                    local length length
     capture {
-        local delwidth = length(`macval(delimiter)')
+        local delwidth = `length'(`macval(delimiter)')
     }
     if _rc {
-        local delwidth = length(`"`macval(delimiter)'"')
+        local delwidth = `length'(`"`macval(delimiter)'"')
     }
     if `haslabcol2' {
         local totcharwidth = `totcharwidth' + `delwidth' + `labcol2width'
@@ -968,7 +978,7 @@ program define estout, rclass
             file open `file' using `"`tfile'"', read text
             file read `file' delwidth
             file close `file'
-            local delwidth = length(`"`macval(delwidth)'"')
+            local delwidth = `length'(`"`macval(delwidth)'"')
         }
         else local delwidth 0
     }
@@ -1030,18 +1040,22 @@ program define estout, rclass
         }
         MgroupsPattern "`modelsrow'" "`mgroupspattern'"
         Abbrev `varwidth' `"`macval(mgroupslhs)'"' "`abbrev'"
+        local value: di `fmt_v' `"`macval(value)'"'
         WriteBegin `"`file'"' `"`macval(mgroupsbegin)'"' `"`macval(tmpbegin)'"' ///
-         `"`fmt_v' (`"`macval(value)'"')"'
+            `"`"`macval(value)'"'"'
         if `haslabcol2' {
             Abbrev `labcol2width' `"`macval(labcol2chunk)'"' "`abbrev'"
-            file write `file' `macval(delimiter)' `fmt_l2' (`"`macval(value)'"')
+            if `:length local value'<245 {
+                local value: di `fmt_l2' `"`macval(value)'"'
+            }
+            file write `file' `macval(delimiter)' `"`macval(value)'"'
         }
         WriteCaption `"`file'"' `"`macval(delimiter)'"' ///
             `"`macval(stardetach)'"' "`mgroupspattern'" "`mgroupspattern'" ///
             `"`macval(mgroups)'"' "`starsrow'" "`mgroupsspan'" "`abbrev'" ///
             "`modelwidth'" "`delwidth'" "`starwidth'" ///
             `"`macval(mgroupserepeat)'"' `"`macval(mgroupsprefix)'"' ///
-            `"`macval(mgroupssuffix)'"'
+            `"`macval(mgroupssuffix)'"' "`haslabcol2'"
         WriteEnd `"`file'"' `"`macval(tmpend)'"' `"`macval(mgroupsend)'"' ///
          `"`"`macval(value)'"'"'
         if `hasrtfbrdr' & `rtfbrdron' {
@@ -1059,7 +1073,10 @@ program define estout, rclass
         file write `file' `macval(begin)' `fmt_v' (`""')
         if `haslabcol2' {
             Abbrev `labcol2width' `"`macval(labcol2chunk)'"' "`abbrev'"
-            file write `file' `macval(delimiter)' `fmt_l2' (`"`macval(value)'"')
+            if `:length local value'<245 {
+                local value: di `fmt_l2' `"`macval(value)'"'
+            }
+            file write `file' `macval(delimiter)' `"`macval(value)'"'
         }
         tokenize `"`macval(numbers)'"'
         numlist `"1/`nmodels'"'
@@ -1067,7 +1084,7 @@ program define estout, rclass
             `"`macval(stardetach)'"' "`modelsrow'" "`modelsrow'"  ///
             "`r(numlist)'" "`starsrow'" "`mlabelsspan'" "`abbrev'"  ///
             "`modelwidth'" "`delwidth'" "`starwidth'" ///
-            `""' `"`macval(1)'"' `"`macval(2)'"'
+            `""' `"`macval(1)'"' `"`macval(2)'"' "`haslabcol2'"
         file write `file' `macval(end)' _n
         if `hasrtfbrdr' & `rtfbrdron' {
             StableSubinstr begin `"`macval(rtfbeginbak)'"' "@rtfrowdefbrdr" `"`rtfrowdef'"'
@@ -1092,18 +1109,22 @@ program define estout, rclass
             if `"`macval(mlabelsend)'"'!=""  local tmpend
         }
         Abbrev `varwidth' `"`macval(mlabelslhs)'"' "`abbrev'"
+        local value: di `fmt_v' `"`macval(value)'"'
         WriteBegin `"`file'"' `"`macval(mlabelsbegin)'"' `"`macval(tmpbegin)'"' ///
-         `"`fmt_v' (`"`macval(value)'"')"'
+            `"`"`macval(value)'"'"'
         if `haslabcol2' {
             Abbrev `labcol2width' `"`macval(labcol2chunk)'"' "`abbrev'"
-            file write `file' `macval(delimiter)' `fmt_l2' (`"`macval(value)'"')
+            if `:length local value'<245 {
+                local value: di `fmt_l2' `"`macval(value)'"'
+            }
+            file write `file' `macval(delimiter)' `"`macval(value)'"'
         }
         WriteCaption `"`file'"' `"`macval(delimiter)'"' ///
             `"`macval(stardetach)'"' "`modelsrow'" "`modelsrow'"  ///
             `"`macval(mlabels)'"' "`starsrow'" "`mlabelsspan'" "`abbrev'"  ///
             "`modelwidth'" "`delwidth'" "`starwidth'" ///
             `"`macval(mlabelserepeat)'"' `"`macval(mlabelsprefix)'"' ///
-            `"`macval(mlabelssuffix)'"'
+            `"`macval(mlabelssuffix)'"' "`haslabcol2'"
         WriteEnd `"`file'"' `"`macval(tmpend)'"' `"`macval(mlabelsend)'"' ///
          `"`"`macval(value)'"'"'
         if `hasrtfbrdr' & `rtfbrdron' {
@@ -1130,18 +1151,22 @@ program define estout, rclass
         }
         if "`smcltags'"!="" file write `file' "{txt}"
         Abbrev `varwidth' `"`macval(eqlabelslhs)'"' "`abbrev'"
+        local value: di `fmt_v' `"`macval(value)'"'
         WriteBegin `"`file'"' `"`macval(eqlabelsbegin)'"' `"`macval(tmpbegin)'"' ///
-         `"`fmt_v' (`"`macval(value)'"')"'
+            `"`"`macval(value)'"'"'
         if `haslabcol2' {
             Abbrev `labcol2width' `"`macval(labcol2chunk)'"' "`abbrev'"
-            file write `file' `macval(delimiter)' `fmt_l2' (`"`macval(value)'"')
+            if `:length local value'<245 {
+                local value: di `fmt_l2' `"`macval(value)'"'
+            }
+            file write `file' `macval(delimiter)' `"`macval(value)'"'
         }
         WriteCaption `"`file'"' `"`macval(delimiter)'"' ///
             `"`macval(stardetach)'"' "`eqsrow'" "`modelsrow'" ///
             `"`macval(eqlabels)'"' "`starsrow'" "`eqlabelsspan'"  "`abbrev'" ///
             "`modelwidth'" "`delwidth'" "`starwidth'" ///
             `"`macval(eqlabelserepeat)'"' `"`macval(eqlabelsprefix)'"' ///
-            `"`macval(eqlabelssuffix)'"'
+            `"`macval(eqlabelssuffix)'"' "`haslabcol2'"
         WriteEnd `"`file'"' `"`macval(tmpend)'"' `"`macval(eqlabelsend)'"' ///
          `"`"`macval(value)'"'"'
         if `hasrtfbrdr' & `rtfbrdron' {
@@ -1166,17 +1191,21 @@ program define estout, rclass
             if `"`macval(collabelsend)'"'!=""  local tmpend
         }
         Abbrev `varwidth' `"`macval(collabelslhs)'"' "`abbrev'"
+        local value: di `fmt_v' `"`macval(value)'"'
         WriteBegin `"`file'"' `"`macval(collabelsbegin)'"' `"`macval(tmpbegin)'"' ///
-         `"`fmt_v' (`"`macval(value)'"')"'
+            `"`"`macval(value)'"'"'
         if `haslabcol2' {
             Abbrev `labcol2width' `"`macval(labcol2chunk)'"' "`abbrev'"
-            file write `file' `macval(delimiter)' `fmt_l2' (`"`macval(value)'"')
+            if `:length local value'<245 {
+                local value: di `fmt_l2' `"`macval(value)'"'
+            }
+            file write `file' `macval(delimiter)' `"`macval(value)'"'
         }
         WriteCaption `"`file'"' `"`macval(delimiter)'"' ///
             `"`macval(stardetach)'"' "`colsrow'" "" `"`macval(collabels)'"' ///
             "`starsrow'" "`collabelsspan'" "`abbrev'" "`modelwidth'" ///
             "`delwidth'" "`starwidth'" `"`macval(collabelserepeat)'"' ///
-            `"`macval(collabelsprefix)'"' `"`macval(collabelssuffix)'"'
+            `"`macval(collabelsprefix)'"' `"`macval(collabelssuffix)'"' "`haslabcol2'"
         WriteEnd `"`file'"' `"`macval(tmpend)'"' `"`macval(collabelsend)'"' ///
          `"`"`macval(value)'"'"'
         if `hasrtfbrdr' & `rtfbrdron' {
@@ -1302,7 +1331,7 @@ program define estout, rclass
                         if rownumb(`B',`"`eqvar'"')<. {
                             local rowhasstats 1
                             if index("`vi'",".")==1 continue
-                            if `: list eqvar in `vi'_drop' continue
+                            if `:list posof `"`eqvar'"' in `vi'_drop' continue
                             local skiprow 0
                             continue, break
                         }
@@ -1343,12 +1372,16 @@ program define estout, rclass
                     Abbrev `varwidth' `"`macval(value)'"' "`abbrev'"
                 }
                 else local value
+                local value: di `fmt_v' `"`macval(varlabelsprefix)'`macval(value)'`macval(varlabelssuffix)'"'
                 WriteBegin `"`file'"' `"`macval(varlabelsbegin0)'"' `"`macval(tmpbegin)'"' ///
-                 `"`fmt_v' (`"`macval(varlabelsprefix)'`macval(value)'`macval(varlabelssuffix)'"')"'
+                    `"`"`macval(value)'"'"'
                 if `haslabcol2' {
                     gettoken labcol2chunk labcol2 : labcol2
                     Abbrev `labcol2width' `"`macval(labcol2chunk)'"' "`abbrev'"
-                    file write `file' `macval(delimiter)' `fmt_l2' (`"`macval(value)'"')
+                    if `:length local value'<245 {
+                        local value: di `fmt_l2' `"`macval(value)'"'
+                    }
+                    file write `file' `macval(delimiter)' `"`macval(value)'"'
                 }
                 if "`smcltags'"!="" file write `file' "{res}"
                 WriteStrRow `"`file'"' "`modelsrow'" `"`eqsrow'"' `"`: list sizeof eqswide'"' ///
@@ -1424,12 +1457,16 @@ program define estout, rclass
             else {
                 Abbrev `varwidth' `"`macval(theeqlabel)'`macval(varl)'"' "`abbrev'"
             }
+            local value: di `fmt_v' `"`macval(varlabelsprefix)'`macval(value)'`macval(varlabelssuffix)'"'
             WriteBegin `"`file'"' `"`macval(varlabelsbegin0)'"' `"`macval(tmpbegin)'"' ///
-             `"`fmt_v' (`"`macval(varlabelsprefix)'`macval(value)'`macval(varlabelssuffix)'"')"'
+                `"`"`macval(value)'"'"'
             if `haslabcol2' {
                 gettoken labcol2chunk labcol2 : labcol2
                 Abbrev `labcol2width' `"`macval(labcol2chunk)'"' "`abbrev'"
-                file write `file' `macval(delimiter)' `fmt_l2' (`"`macval(value)'"')
+                if `:length local value'<245 {
+                    local value: di `fmt_l2' `"`macval(value)'"'
+                }
+                file write `file' `macval(delimiter)' `"`macval(value)'"'
             }
             if `hasrtfbrdr' & `rtfbrdron' {
                 StableSubinstr begin `"`macval(rtfbeginbak)'"' "@rtfrowdefbrdr" `"`rtfrowdef'"'
@@ -1473,7 +1510,8 @@ program define estout, rclass
                                 local space " "
                             }
                             Abbrev `varwidth' `"`macval(value)'"' "`abbrev'"
-                            local value `"`fmt_v' (`"`macval(varlabelsprefix)'`macval(value)'`macval(varlabelssuffix)'"')"'
+                            local value: di `fmt_v' `"`macval(varlabelsprefix)'`macval(value)'`macval(varlabelssuffix)'"'
+                            local value `"`"`macval(value)'"'"'
                         }
                         else local value "_skip(`varwidth')"
                         file write `file' `macval(end)' _n `macval(begin)' `value'
@@ -1489,7 +1527,7 @@ program define estout, rclass
                     local thevalue
                     foreach vi of local v {
                         if index("`vi'",".")!=1 {
-                            if `: list eqvar in `vi'_drop' local vi "..`vi'"
+                            if `: list posof `"`eqvar'"' in `vi'_drop' local vi "..`vi'"
                             else {
                                 local vipar: subinstr local `vi'_par "@modelwidth" "`modelwidthj'", all
                             }
@@ -1552,7 +1590,7 @@ program define estout, rclass
                             if `modelwidthj'>0 | `starwidth'>0 local fmt_m "%`=`modelwidthj'+`starwidth''s"
                             local value
                             if index("`vi'",".")!=1 & `"``vi'_star'"'!="" {
-                                if !`: list eqvar in stardrop' {
+                                if !`: list posof `"`eqvar'"' in stardrop' {
                                     Stars `"`macval(starlevels)'"' `_```vi'_pvalue'_tname''[`rr',`m']
                                 }
                             }
@@ -1565,15 +1603,18 @@ program define estout, rclass
                             local thevalue `"`macval(thevalue)'`macval(incelldelimiter)'"'
                         }
                     }
-                    file write `file' `macval(delimiter)' `fmt_m' (`"`macval(thevalue)'"')
+                    if `:length local thevalue'<245 {
+                        local thevalue: di `fmt_m' `"`macval(thevalue)'"'
+                    }
+                    file write `file' `macval(delimiter)' `"`macval(thevalue)'"'
                     if `stardetachon' & `:word `c' of `starsrow''==1 {
                         local thevalue
                         foreach vi of local v {
                             if index("`vi'",".")!=1 {
-                                if `: list eqvar in `vi'_drop' local vi "..`vi'"
+                                if `: list posof `"`eqvar'"' in `vi'_drop' local vi "..`vi'"
                             }
                             if index("`vi'",".")!=1 & `"``vi'_star'"'!="" {
-                                if `: list eqvar in stardrop' local value
+                                if `: list posof `"`eqvar'"' in stardrop' local value
                                 else {
                                     Stars `"`macval(starlevels)'"' `_```vi'_pvalue'_tname''[`rr',`m']
                                 }
@@ -1583,7 +1624,10 @@ program define estout, rclass
                                 local thevalue `"`macval(thevalue)'`macval(incelldelimiter)'"'
                             }
                         }
-                        file write `file' `macval(stardetach)' `fmt_stw' (`"`macval(thevalue)'"')
+                        if `:length local thevalue'<245 {
+                            local thevalue: di `fmt_stw' `"`macval(thevalue)'"'
+                        }
+                        file write `file' `macval(stardetach)' `"`macval(thevalue)'"'
                     }
                 }
                 local newrow 1
@@ -1628,12 +1672,16 @@ program define estout, rclass
                     Abbrev `varwidth' `"`macval(value)'"' "`abbrev'"
                 }
                 else local value
+                local value: di `fmt_v' `"`macval(varlabelsprefix)'`macval(value)'`macval(varlabelssuffix)'"'
                 WriteBegin `"`file'"' `"`macval(varlabelsbegin0)'"' `"`macval(tmpbegin)'"' ///
-                 `"`fmt_v' (`"`macval(varlabelsprefix)'`macval(value)'`macval(varlabelssuffix)'"')"'
+                    `"`"`macval(value)'"'"'
                 if `haslabcol2' {
                     gettoken labcol2chunk labcol2 : labcol2
                     Abbrev `labcol2width' `"`macval(labcol2chunk)'"' "`abbrev'"
-                    file write `file' `macval(delimiter)' `fmt_l2' (`"`macval(value)'"')
+                    if `:length local value'<245 {
+                        local value: di `fmt_l2' `"`macval(value)'"'
+                    }
+                    file write `file' `macval(delimiter)' `"`macval(value)'"'
                 }
                 if "`smcltags'"!="" file write `file' "{res}"
                 WriteStrRow `"`file'"' "`modelsrow'" `"`eqsrow'"' `"`: list sizeof eqswide'"' ///
@@ -1665,12 +1713,16 @@ program define estout, rclass
         }
         else local value
         if "`smcltags'"!="" file write `file' "{txt}"
+        local value: di `fmt_v' `"`macval(varlabelsprefix)'`macval(value)'`macval(varlabelssuffix)'"'
         WriteBegin `"`file'"' `"`macval(varlabelsbegin0)'"' `"`macval(tmpbegin)'"' ///
-         `"`fmt_v' (`"`macval(varlabelsprefix)'`macval(value)'`macval(varlabelssuffix)'"')"'
+            `"`"`macval(value)'"'"'
         if `haslabcol2' {
             gettoken labcol2chunk labcol2 : labcol2
             Abbrev `labcol2width' `"`macval(labcol2chunk)'"' "`abbrev'"
-            file write `file' `macval(delimiter)' `fmt_l2' (`"`macval(value)'"')
+            if `:length local value'<245 {
+                local value: di `fmt_l2' `"`macval(value)'"'
+            }
+            file write `file' `macval(delimiter)' `"`macval(value)'"'
         }
         if "`smcltags'"!="" file write `file' "{res}"
         WriteStrRow `"`file'"' "`modelsrow'" `"`eqsrow'"' `"`: list sizeof eqswide'"' ///
@@ -1725,15 +1777,19 @@ program define estout, rclass
             if `"`macval(statslabelsbegin0)'"'!="" local tmpbegin
         }
         Abbrev `varwidth' `"`macval(stat)'"' "`abbrev'"
+        local value: di `fmt_v' `"`macval(statslabelsprefix)'`macval(value)'`macval(statslabelssuffix)'"'
         WriteBegin `"`file'"' `"`macval(statslabelsbegin0)'"' `"`macval(tmpbegin)'"' ///
-         `"`fmt_v' (`"`macval(statslabelsprefix)'`macval(value)'`macval(statslabelssuffix)'"')"'
+            `"`"`macval(value)'"'"'
         if `r'==1 & "`statslabelsfirst'"=="" {
             local statslabelsbegin0 `"`macval(statslabelsbegin)'"'
         }
         if `haslabcol2' {
             gettoken labcol2chunk labcol2 : labcol2
             Abbrev `labcol2width' `"`macval(labcol2chunk)'"' "`abbrev'"
-            file write `file' `macval(delimiter)' `fmt_l2' (`"`macval(value)'"')
+            if `:length local value'<245 {
+                local value: di `fmt_l2' `"`macval(value)'"'
+            }
+            file write `file' `macval(delimiter)' `"`macval(value)'"'
         }
         if "`smcltags'"!="" file write `file' "{res}"
         local strow: word `r' of `statsarray'
@@ -1811,7 +1867,10 @@ program define estout, rclass
                 if `cellhasstat' local usemestats 1
             }
             if `cellhasstat'==0 local stcelllay
-            file write `file' `macval(delimiter)' `fmt_m' (`"`macval(stcelllay)'"')
+            if `:length local stcelllay'<245 {
+                local stcelllay: di `fmt_m' `"`macval(stcelllay)'"'
+            }
+            file write `file' `macval(delimiter)' `"`macval(stcelllay)'"'
             if `:word `c' of `starsrow''==1 {
                 if "`stcellstar'"=="1" & `cellhasstat' {
                     if `usemestats' {
@@ -1821,7 +1880,10 @@ program define estout, rclass
                         local rr=rownumb(`St',"p")
                     }
                     Stars `"`macval(starlevels)'"' `St'[`rr',`m']
-                    file write `file' `macval(stardetach)' `fmt_stw' (`"`macval(value)'"')
+                    if `:length local value'<245 {
+                        local value: di `fmt_stw' `"`macval(value)'"'
+                    }
+                    file write `file' `macval(stardetach)' `"`macval(value)'"'
                 }
                 else {
                     file write `file' `macval(stardetach)' _skip(`starwidth')
@@ -2324,10 +2386,12 @@ end
 
 program Starwidth
     args starlevels
+    if c(stata_version)>=14 local length udstrlen
+    else                    local length length
     local nstar: word count `macval(starlevels)'
     forv i = 2(2)`nstar' {
         local istar: word `=`i'-1' of `macval(starlevels)'
-        local width = max(length("`width'"),length(`"`macval(istar)'"'))
+        local width = max(length("`width'"),`length'(`"`macval(istar)'"'))
     }
     c_local value `width'
 end
@@ -3092,7 +3156,12 @@ program ComputeCoefs_p
             if `b'>=.        mat `res' = `b'
             else if `var'>=. mat `res' = `var'
             else if "`dfmi'"!="" {
-                mat `res' = ttail(`dfmi'[1,`i'],abs(`b'/sqrt(`var'))) * 2
+                if `dfmi'[1,`i']<. {
+                    mat `res' = ttail(`dfmi'[1,`i'],abs(`b'/sqrt(`var'))) * 2
+                }
+                else {
+                    mat `res' = (1 - norm(abs(`b'/sqrt(`var')))) * 2
+                }
             }
             else if `df_r'<. mat `res' = ttail(`df_r',abs(`b'/sqrt(`var'))) * 2
             else             mat `res' = (1 - norm(abs(`b'/sqrt(`var')))) * 2
@@ -3127,8 +3196,14 @@ program ComputeCoefs_ci
             if `b'>=.        mat `res' = `b'
             else if `var'>=. mat `res' = `var'
             else if "`dfmi'"!="" {
-                mat `res' = `b' `sign' ///
-                    invttail(`dfmi'[1,`i'],(100-`level')/200) * sqrt(`var')
+                if `dfmi'[1,`i']<. {
+                    mat `res' = `b' `sign' ///
+                        invttail(`dfmi'[1,`i'],(100-`level')/200) * sqrt(`var')
+                }
+                else {
+                    mat `res' = `b' `sign' ///
+                        invnorm(1-(100-`level')/200) * sqrt(`var')
+                }
             }
             else if `df_r'<. mat `res' = `b' `sign' ///
                                 invttail(`df_r',(100-`level')/200) * sqrt(`var')
@@ -3386,12 +3461,20 @@ end
 
 program Abbrev
     args width value abbrev
+    if c(stata_version)>=14 {
+        local substr udsubstr
+        local length udstrlen
+    }
+    else {
+        local substr substr
+        local length length
+    }
     if "`abbrev'"!="" {
         if `width'>32 {
-            local value = substr(`"`macval(value)'"',1,`width')
+            local value = `substr'(`"`macval(value)'"',1,`width')
         }
         else if `width'>0 {
-            if length(`"`macval(value)'"')>`width' {
+            if `length'(`"`macval(value)'"')>`width' {
                 local value = abbrev(`"`macval(value)'"',`width')
             }
         }
@@ -3422,10 +3505,10 @@ end
 
 program WriteCaption
     args file delimiter stardetach row rowtwo labels starsrow span  ///
-     abbrev colwidth delwidth starwidth repeat prefix suffix
+     abbrev colwidth delwidth starwidth repeat prefix suffix haslabcol2
     local c 0
     local nspan 0
-    local c0 2
+    local c0 = 2 + `haslabcol2'
     local spanwidth -`delwidth'
     local spanfmt
     local ncolwidth: list sizeof colwidth
@@ -3446,7 +3529,10 @@ program WriteCaption
                 InsertAtVariables `"`macval(value)'"' 1 "1"
             }
             else local value
-            file write `file' `macval(delimiter)' `colfmt' (`"`macval(value)'"')
+            if `:length local value'<245 {
+                local value: di `colfmt' `"`macval(value)'"'
+            }
+            file write `file' `macval(delimiter)' `"`macval(value)'"'
             if `:word `c' of `starsrow''==1 {
                 file write `file' `macval(stardetach)' _skip(`starwidth')
             }
@@ -3472,7 +3558,10 @@ program WriteCaption
                 local value `"`macval(prefix)'`macval(value)'`macval(suffix)'"'
                 InsertAtVariables `"`macval(value)'"' 1 "`nspan'"
                 if `spanwidth'>0 local spanfmt "%-`spanwidth's"
-                file write `file' `macval(delimiter)' `spanfmt' (`"`macval(value)'"')
+                if `:length local value'<245 {
+                    local value: di `spanfmt' `"`macval(value)'"'
+                }
+                file write `file' `macval(delimiter)' `"`macval(value)'"'
                 InsertAtVariables `"`macval(repeat)'"' 1 "`c0'-`=`c0'+`nspan'-1'"
                 local repeatlist `"`macval(repeatlist)'`macval(value)'"'
                 local c0 = `c0' + `nspan'
@@ -3522,7 +3611,10 @@ program WriteEqrow
         Abbrev `vwidth' `"`macval(value)'"' "`abbrev'"
         local value `"`macval(prefix)'`macval(value)'`macval(suffix)'"'
         InsertAtVariables `"`macval(value)'"' 1 "1"
-        file write `file' `fmt_v' (`"`macval(value)'"')
+        if `:length local value'<245 {
+            local value: di `fmt_v' `"`macval(value)'"'
+        }
+        file write `file' `"`macval(value)'"'
         if `haslabcol2' {
             file write `file' `macval(delimiter)' `fmt_l2' ("")
         }
@@ -3557,7 +3649,10 @@ program WriteEqrow
         local value `"`macval(prefix)'`macval(value)'`macval(suffix)'"'
         InsertAtVariables `"`macval(value)'"' 1 "`nspan'"
         if `spanwidth'>0 local spanfmt "%-`spanwidth's"
-        file write `file' `spanfmt' (`"`macval(value)'"')
+        if `:length local value'<245 {
+            local value: di `spanfmt' `"`macval(value)'"'
+        }
+        file write `file' `"`macval(value)'"'
     }
 end
 
@@ -3580,7 +3675,10 @@ prog WriteStrRow
             Abbrev `colwidthj' `"`macval(value)'"' "`abbrev'"
         }
         else local value
-        file write `file' `macval(delimiter)' `colfmt' (`"`macval(value)'"')
+        if `:length local value'<245 {
+            local value: di `colfmt' `"`macval(value)'"'
+        }
+        file write `file' `macval(delimiter)' `"`macval(value)'"'
         if `:word `c' of `starsrow''==1 {
             file write `file' `macval(stardetach)' _skip(`starwidth')
         }
