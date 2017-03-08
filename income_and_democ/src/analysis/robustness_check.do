@@ -2,7 +2,6 @@
 include project_paths
 log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
 
-ssc install xtabond2, replace
 
 do `"${PATH_OUT_MODEL_SPECS}/`2'"'
 
@@ -137,7 +136,7 @@ mat base_gmmwe_${DEPVAR} = [_b[L1.${DEPVAR}]\ _se[L1.${DEPVAR}] \ _b[L1.${INDEP1
 mat ${DEPVAR}_robust_tab =[ bal_fe_${DEPVAR}, bal_gmm_${DEPVAR}, base_fews_${DEPVAR}, base_gmmws_${DEPVAR}, base_fe_${DEPVAR}, base_gmm_${DEPVAR}, base_fewe_${DEPVAR}, base_gmmwe_${DEPVAR} ]
 
 svmat ${DEPVAR}_robust_tab, names(${DEPVAR}_robust_tab_)
-    format ${DEPVAR}_robust_tab_1 ${DEPVAR}_robust_tab_2 ${DEPVAR}_robust_tab_3 ${DEPVAR}_robust_tab_4 ${DEPVAR}_robust_tab_5 ${DEPVAR}_robust_tab_6 ${DEPVAR}_robust_tab_7 ${DEPVAR}_robust_tab_8 %5.2f
+    format ${DEPVAR}_robust_tab_1 ${DEPVAR}_robust_tab_2 ${DEPVAR}_robust_tab_3 ${DEPVAR}_robust_tab_4 ${DEPVAR}_robust_tab_5 ${DEPVAR}_robust_tab_6 ${DEPVAR}_robust_tab_7 ${DEPVAR}_robust_tab_8 %5.3f
     gen id = _n
     sort id
     gen str ${DEPVAR}_colstring = "Democracy t-1" if id==1
