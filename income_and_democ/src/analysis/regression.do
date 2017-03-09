@@ -137,14 +137,14 @@ sca def N = `e(N)'
 testnl (_b[L1.${INDEP1}]/(1 - _b[L1.${DEPVAR}])) = 0
 sca def p = `r(p)'
 
-mat ${DEPVAR}_fixed20 = [_b[L1.${DEPVAR}]\ _se[L.${DEPVAR}]\ _b[L1.${INDEP1}] \ _se[L1.${INDEP1}]\ . \ . \(_b[L1.${INDEP1}]/(1 - _b[L1.${DEPVAR}])) \ p  \ N \ NC \ e(r2) ]
+mat ${DEPVAR}_fixed20 = [_b[L1.${DEPVAR}]\ _se[L.${DEPVAR}]\ _b[L1.${INDEP1}] \ _se[L1.${INDEP1}]\ . \ . \(_b[L1.${INDEP1}]/(1 - _b[L1.${DEPVAR}])) \ p  \ N  \ NC \ e(r2) ]
 
 
 
 mat `2' =[${DEPVAR}_pool, ${DEPVAR}_fixed1, ${DEPVAR}_AndHsiaoIV, ${DEPVAR}_GMMIV, ${DEPVAR}_fixed2, ${DEPVAR}_fixedannual, ${DEPVAR}_fixed10, ${DEPVAR}_GMMIV10, ${DEPVAR}_fixed20 ]
 
 svmat `2', names(`2'_)
-format `2'_1 `2'_2 `2'_3 `2'_4 `2'_5 `2'_6 `2'_7 `2'_8 `2'_9 %05.2f
+format `2'_1 `2'_2 `2'_3 `2'_4 `2'_5 `2'_6 `2'_7 `2'_8 `2'_9 %9.2f
 gen id = _n
 sort id
 drop if id>11

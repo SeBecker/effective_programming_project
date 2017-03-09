@@ -14,7 +14,7 @@ do `"${PATH_OUT_MODEL_SPECS}/`2'"'
 
 listtab `2'_colstring `2'_1 `2'_2 `2'_3 `2'_4 `2'_5 `2'_6 `2'_7 `2'_8 `2'_9 ///
     using `"${PATH_OUT_TABLES}/`2'.tex"', replace type rstyle(tabular) ///
-    head("\begin{table}[htb]" "\caption{Fixed Effects Results Using ${TITLETABULAR} Measure of Democracy}" ///
+    head("\begin{table}[htb]" "\caption{Fixed Effects Results Using ${TABLETITLE} Measure of Democracy}" ///
     "\footnotesize" "\begin{center}" "\begin{adjustbox}{max width=\textwidth}" "\begin{tabular}{lccccccccc}" ///
     "\toprule" ///
     "& \multicolumn{9}{c}{Base Sample 1960-2000} \\" ///
@@ -33,6 +33,8 @@ listtab `2'_colstring `2'_1 `2'_2 `2'_3 `2'_4 `2'_5 `2'_6 `2'_7 `2'_8 `2'_9 ///
     " & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8) & (9)\\ " ///
     "\midrule" ///
     "\vspace{0.1cm}\\ " ///
-    "& \multicolumn{9}{c}{\textit{Dependent variable is democracy}:}\\ ") ///
+    "& \multicolumn{9}{c}{\textit{Dependent variable is democracy}:}\\" ///
+    "\cmidrule(lr){2-10}" ///
+    "\vspace{0.1cm}\\" ) ///
     foot("\bottomrule" "\end{tabular}" "\end{adjustbox}" "\end{center}" "\end{table}" )
 

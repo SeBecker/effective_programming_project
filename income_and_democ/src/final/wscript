@@ -40,6 +40,27 @@ def build(ctx):
             append=t
         )
 
+        ctx(
+            features='subst',
+            source='robust_table.do',
+            target='{}_robust_table.do'.format(t)
+        )
+        ctx(
+            features='run_do_script',
+            source='{}_robust_table.do'.format(t),
+            target=[
+                ctx.path_to(ctx, 'OUT_FINAL', 'log',
+                            '{}_robust_table.log'.format(t)),
+                ctx.path_to(ctx, 'OUT_TABLES',
+                            '{}_robust.tex'.format(t))
+            ],
+            deps=[
+                ctx.path_to(ctx, 'OUT_ANALYSIS', '{}_robustness_check_results.dta'.format(t))
+            ],
+            name='{}_robust_table'.format(t),
+            append=t
+        )
+
     for f in figures:
 
         if f == 'F6':

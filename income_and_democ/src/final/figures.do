@@ -4,7 +4,10 @@
 include project_paths
 
 
+
 log using `"${PATH_OUT_FINAL}/log/`1'.log"', replace
+
+
 
 do `"${PATH_OUT_MODEL_SPECS}/`2'"'
 
