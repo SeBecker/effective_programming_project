@@ -34,7 +34,8 @@ def build(ctx):
                             '{}.tex'.format(t))
             ],
             deps=[
-                ctx.path_to(ctx, 'OUT_ANALYSIS', '{}_estimation_results.dta'.format(t))
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_estimation_results.dta'.format(t))
             ],
             name='{}_table12'.format(t),
             append=t
@@ -55,9 +56,34 @@ def build(ctx):
                             '{}_robust.tex'.format(t))
             ],
             deps=[
-                ctx.path_to(ctx, 'OUT_ANALYSIS', '{}_robustness_check_results.dta'.format(t))
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_robustness_check_results.dta'.format(t))
             ],
             name='{}_robust_table'.format(t),
+            append=t
+        )
+
+        ctx(
+            features='subst',
+            source='IV_table.do',
+            target='{}_IV_table.do'.format(t)
+        )
+        ctx(
+            features='run_do_script',
+            source='{}_IV_table.do'.format(t),
+            target=[
+                ctx.path_to(ctx, 'OUT_FINAL', 'log',
+                            '{}_IV_table.log'.format(t)),
+                ctx.path_to(ctx, 'OUT_TABLES',
+                            '{}_nsave_IVtable.tex'.format(t))
+            ],
+            deps=[
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_nsaveup_IVestimation_results.dta'.format(t)),
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_nsavedo_IVestimation_results.dta'.format(t))
+            ],
+            name='{}_IV_table'.format(t),
             append=t
         )
 

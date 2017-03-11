@@ -3,6 +3,9 @@
     "INDEP1": "lrgdpch",
     "INDEP2": "lpop",
     "INDEP3": "education",
+    "INDEP4": "laborshare",
+    "INST1": "nsave",
+    "INST2": "worldincome",
     "AGEMED": "medage",
     "AGEVY": "age_veryyoung",
     "AGEY": "age_young",
@@ -12,6 +15,8 @@
     "SAMPLEBALFE": "samplebalancefe",
     "SAMPLEBALGMM": "samplebalancegmm",
     "SOCIAL": "socialist",
-    "TABLETITLE": "Polity Measure"
+    "TABLETITLE": "Polity Measure",
+    "IVTITLE1": "Saving Rate Instrument",
+    "IVTITLE2": "Trade-Weighted World Income Instrument"
 
 }

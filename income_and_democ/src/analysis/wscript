@@ -54,6 +54,30 @@ def build(ctx):
             name='{}_regression'.format(p),
             append=p
         )
+        ctx(
+            features='subst',
+            source='IVestimation.do',
+            target='{}_IVestimation.do'.format(p)
+        )
+        ctx(
+            features='run_do_script',
+            source='{}_IVestimation.do'.format(p),
+            target=[
+                ctx.path_to(ctx, 'OUT_ANALYSIS', 'log',
+                            '{}_IVestimation.log'.format(p)),
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_nsaveup_IVestimation_results.dta'.format(p)),
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_nsavedo_IVestimation_results.dta'.format(p))
+            ],
+            deps=[
+                ctx.path_to(ctx, 'OUT_DATA', '5_year_panel_all.dta'),
+                ctx.path_to(ctx, 'OUT_MODEL_SPECS', '{}.do'.format(p)),
+            ],
+            name='{}_IVestimation'.format(p),
+            append=p
+        )
+
     for f in models:
 
         ctx(

@@ -3,14 +3,19 @@
     "INDEP1": "lrgdpch",
     "INDEP2": "lpop",
     "INDEP3": "education",
+    "INDEP4": "laborshare",
     "AGEMED": "medage",
     "AGEVY": "age_veryyoung",
     "AGEY": "age_young",
     "AGEO": "age_old",
     "AGEM": "age_midage",
+    "INST1": "nsave",
+    "INST2": "worldincome",
     "SAMPLE": "sample",
     "SAMPLEBALFE": "samplebalancefe",
     "SAMPLEBALGMM": "samplebalancegmm",
     "SOCIAL": "socialist",
-    "TABLETITLE": "Freedom House Measure"
+    "TABLETITLE": "Freedom House Measure",
+    "IVTITLE1": "Saving Rate Instrument",
+    "IVTITLE2": "Trade-Weighted World Income Instrument"
 }

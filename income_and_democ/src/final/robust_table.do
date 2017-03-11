@@ -17,7 +17,7 @@ listtab `2'_colstring `2'_robust_1 `2'_robust_2 `2'_robust_3 `2'_robust_4 `2'_ro
     "\footnotesize" "\begin{center}" "\begin{adjustbox}{max width=\textwidth}" "\begin{tabular}{lccccccccc}" ///
     "\toprule" ///
     "& \multicolumn{8}{c}{Five-year data} \\" ///
-    "\cmidrule(lr){2-9}
+    "\cmidrule(lr){2-9}" ///
     "&&&\multicolumn{2}{c}{\multirow{3}{*}{\shortstack[c]{Base Sample, 1960-2000 \\ without socialist \\ countries}}}&&&\\" ///
     "&&&&&&&& \\" ///
     " & \multicolumn{2}{c}{Balanced Panel, 1970-2000} & & &   \multicolumn{4}{c}{Base Sample, 1960-2000}\\" ///
