@@ -75,13 +75,21 @@ def build(ctx):
                 ctx.path_to(ctx, 'OUT_FINAL', 'log',
                             '{}_IV_table.log'.format(t)),
                 ctx.path_to(ctx, 'OUT_TABLES',
-                            '{}_nsave_IVtable.tex'.format(t))
+                            '{}_nsave_IVtable.tex'.format(t)),
+                ctx.path_to(ctx, 'OUT_TABLES',
+                            '{}_worldincome_IVtable.tex'.format(t))
+
             ],
             deps=[
                 ctx.path_to(ctx, 'OUT_ANALYSIS',
                             '{}_nsaveup_IVestimation_results.dta'.format(t)),
                 ctx.path_to(ctx, 'OUT_ANALYSIS',
-                            '{}_nsavedo_IVestimation_results.dta'.format(t))
+                            '{}_worldincomeup_IVestimation_results.dta'.format(t)),
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_nsavedo_IVestimation_results.dta'.format(t)),
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_worldincomedo_IVestimation_results.dta'.format(t))
+
             ],
             name='{}_IV_table'.format(t),
             append=t

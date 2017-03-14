@@ -8,7 +8,7 @@ log using `"${PATH_OUT_FINAL}/log/`1'.log"', replace
 
 do `"${PATH_OUT_MODEL_SPECS}/`2'"'
 
-local inst = "${INST1}"
+local inst = "${INST1} ${INST2}"
 
 
 foreach i in `inst' {

@@ -4,6 +4,7 @@
     "INDEP2": "lpop",
     "INDEP3": "education",
     "INDEP4": "laborshare",
+    "INDEP5": "worlddemocracy",
     "AGEMED": "medage",
     "AGEVY": "age_veryyoung",
     "AGEY": "age_young",

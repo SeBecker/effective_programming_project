@@ -68,7 +68,11 @@ def build(ctx):
                 ctx.path_to(ctx, 'OUT_ANALYSIS',
                             '{}_nsaveup_IVestimation_results.dta'.format(p)),
                 ctx.path_to(ctx, 'OUT_ANALYSIS',
-                            '{}_nsavedo_IVestimation_results.dta'.format(p))
+                            '{}_worldincomeup_IVestimation_results.dta'.format(p)),
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_nsavedo_IVestimation_results.dta'.format(p)),
+                ctx.path_to(ctx, 'OUT_ANALYSIS',
+                            '{}_worldincomedo_IVestimation_results.dta'.format(p))
             ],
             deps=[
                 ctx.path_to(ctx, 'OUT_DATA', '5_year_panel_all.dta'),

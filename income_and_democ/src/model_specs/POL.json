@@ -4,6 +4,7 @@
     "INDEP2": "lpop",
     "INDEP3": "education",
     "INDEP4": "laborshare",
+    "INDEP5": "worlddemocracy",
     "INST1": "nsave",
     "INST2": "worldincome",
     "AGEMED": "medage",
