@@ -140,3 +140,20 @@ def build(ctx):
                 name='{}_figures'.format(f),
                 append=f
             )
+    ctx(
+        features='run_do_script',
+        source='long_table.do',
+        target=[
+            ctx.path_to(ctx, 'OUT_FINAL', 'log',
+                        'long_table.log'),
+            ctx.path_to(ctx, 'OUT_TABLES',
+                        'long_run_table.tex')
+        ],
+        deps=[
+            ctx.path_to(ctx, 'OUT_ANALYSIS',
+                        'long_run_25.dta'),
+            ctx.path_to(ctx, 'OUT_ANALYSIS',
+                        'long_run_50.dta')
+        ],
+        name='long_table',
+    )

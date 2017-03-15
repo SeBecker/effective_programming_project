@@ -36,7 +36,6 @@ sca def p = `r(p)'
 
 mat bal_gmm_${DEPVAR} = [_b[L1.${DEPVAR}]\ _se[L1.${DEPVAR}] \ _b[L1.${INDEP1}]\ _se[L1.${INDEP1}] \ . \ . \ . \ . \ . \ hj \ ar \ (_b[L1.${INDEP1}]/(1 - _b[L1.${DEPVAR}])) \ p \ N \ . \ .]
 
-save `"${PATH_OUT_ANALYSIS}/`2'_robustness_check_drop"', replace
 
 //le 4 column 3 Fixed effects OLS with Base Sample without former socialist countries
 
@@ -167,7 +166,6 @@ svmat `2'_robust, names(`2'_robust_)
 
 
 
-save `"${PATH_OUT_ANALYSIS}/`2'_robustness_check"', replace
 
 
 

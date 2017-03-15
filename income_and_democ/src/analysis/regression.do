@@ -171,7 +171,6 @@ save `"${PATH_OUT_ANALYSIS}/`2'_estimation_results"', replace
 
 
 
-save `"${PATH_OUT_ANALYSIS}/`2'_regression"', replace
 
 
 

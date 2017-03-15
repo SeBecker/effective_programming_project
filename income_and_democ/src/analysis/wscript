@@ -40,8 +40,6 @@ def build(ctx):
                 ctx.path_to(ctx, 'OUT_ANALYSIS', 'log',
                             '{}_regression.log'.format(p)),
                 ctx.path_to(ctx, 'OUT_ANALYSIS',
-                            '{}_regression.dta'.format(p)),
-                ctx.path_to(ctx, 'OUT_ANALYSIS',
                             '{}_estimation_results.dta'.format(p)),
             ],
             deps=[
@@ -82,31 +80,45 @@ def build(ctx):
             append=p
         )
 
-    for f in models:
-
         ctx(
             features='subst',
             source='robustness_check.do',
-            target='{}_robustness_check.do'.format(f)
+            target='{}_robustness_check.do'.format(p)
         )
         ctx(
             features='run_do_script',
-            source='{}_robustness_check.do'.format(f),
+            source='{}_robustness_check.do'.format(p),
             target=[
                 ctx.path_to(ctx, 'OUT_ANALYSIS', 'log',
-                            '{}_robustness_check.log'.format(f)),
+                            '{}_robustness_check.log'.format(p)),
                 ctx.path_to(ctx, 'OUT_ANALYSIS',
-                            '{}_robustness_check.dta'.format(f)),
-                ctx.path_to(ctx, 'OUT_ANALYSIS',
-                            '{}_robustness_check_drop.dta'.format(f)),
-                ctx.path_to(ctx, 'OUT_ANALYSIS',
-                            '{}_robustness_check_results.dta'.format(f))
+                            '{}_robustness_check_results.dta'.format(p))
 
             ],
             deps=[
                 ctx.path_to(ctx, 'OUT_DATA', '5_year_panel_all.dta'),
-                ctx.path_to(ctx, 'OUT_MODEL_SPECS', '{}.do'.format(f))
+                ctx.path_to(ctx, 'OUT_MODEL_SPECS', '{}.do'.format(p))
             ],
-            name='{}_robustness_check'.format(f),
-            append=f
+            name='{}_robustness_check'.format(p),
+            append=p
         )
+
+    ctx(
+        features='run_do_script',
+        source='long_run.do',
+        target=[
+            ctx.path_to(ctx, 'OUT_ANALYSIS', 'log',
+                        'long_run.log'),
+            ctx.path_to(ctx, 'OUT_ANALYSIS',
+                        'long_run_25.dta'),
+            ctx.path_to(ctx, 'OUT_ANALYSIS',
+                        'long_run_50.dta'),
+
+        ],
+        deps=[
+            ctx.path_to(ctx, 'OUT_DATA', '25_year_panel_all.dta'),
+            ctx.path_to(ctx, 'OUT_DATA', '50_year_panel_all.dta'),
+            ctx.path_to(ctx, 'OUT_MODEL_SPECS', 'POL.do'),
+        ],
+        name='long_run',
+    )
