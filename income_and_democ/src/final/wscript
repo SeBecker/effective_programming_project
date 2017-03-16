@@ -157,3 +157,22 @@ def build(ctx):
         ],
         name='long_table',
     )
+    ctx(
+        features='run_do_script',
+        source='very_long_table.do',
+        target=[
+            ctx.path_to(ctx, 'OUT_FINAL', 'log',
+                        'very_long_table.log'),
+            ctx.path_to(ctx, 'OUT_TABLES',
+                        'very_long_A.tex'),
+            ctx.path_to(ctx, 'OUT_TABLES',
+                        'very_long_B.tex')
+        ],
+        deps=[
+            ctx.path_to(ctx, 'OUT_ANALYSIS',
+                        'very_long_A.dta'),
+            ctx.path_to(ctx, 'OUT_ANALYSIS',
+                        'very_long_B.dta')
+        ],
+        name='very_long_table',
+    )

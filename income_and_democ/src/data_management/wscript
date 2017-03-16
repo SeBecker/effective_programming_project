@@ -39,7 +39,8 @@ def build(ctx):
             'F3',
             'F4',
             'F5',
-            'F6']
+            'F6',
+            '500_year_panel',]
 
     for f in figures:
         ctx(

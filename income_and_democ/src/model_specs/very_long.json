@@ -1,0 +1,14 @@
+{
+    "DEPVAR": "democ",
+    "INDEP1": "growth",
+    "INDEP2": "consfirstaug",
+    "INDEP3": "indcent",
+    "INDEP4": "rel_*",
+    "INDEP5": "lpd1500s",
+    "DUMMY1": "colony",
+    "DUMMY2": "world",
+    "LIST1": "rel_muslim80",
+    "LIST2": "rel_protmg80",
+    "LIST3": "rel_catho80"
+}
+

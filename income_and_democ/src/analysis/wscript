@@ -122,3 +122,21 @@ def build(ctx):
         ],
         name='long_run',
     )
+    ctx(
+        features='run_do_script',
+        source='very_long_run.do',
+        target=[
+            ctx.path_to(ctx, 'OUT_ANALYSIS', 'log',
+                        'very_long_run.log'),
+            ctx.path_to(ctx, 'OUT_ANALYSIS',
+                        'very_long_A.dta'),
+            ctx.path_to(ctx, 'OUT_ANALYSIS',
+                        'very_long_B.dta'),
+
+        ],
+        deps=[
+            ctx.path_to(ctx, 'OUT_DATA', '500_year_panel_all.dta'),
+            ctx.path_to(ctx, 'OUT_MODEL_SPECS', 'very_long.do'),
+        ],
+        name='very_long_run',
+    )
