@@ -1,5 +1,5 @@
 /*
-The file "regression.do"
+The file "yery_long_run.do" replicates the estimation for Table 8A and 8B from Acemoglu 2008 s.833 :cite:`Acemoglu1`. First the file creates a log file in *bld/out/analysis/log* and loads the model specifications from *bld/src/model_specs/very_long.do*.
 I
 
 */

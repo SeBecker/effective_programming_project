@@ -1,3 +1,7 @@
+/*
+The file "IV_table.do" transfers the results from the IV estimation (:ref:`IV estimation`) into a latex table structure and save the tex file in *bld/out/tables*.
+*/
+
 // Read in the model controls
 
 
@@ -13,9 +17,8 @@ local inst = "${INST1} ${INST2}"
 
 foreach i in `inst' {
     use `"${PATH_OUT_ANALYSIS}/`2'_`i'up_IVestimation_results"', clear
-    sca def x = "`i'"
 
-    if x == "nsave" {
+    if "`i'" == "nsave" {
         listtab `i'_up_colstring `i'_up_1 `i'_up_2 `i'_up_3 `i'_up_4 `i'_up_5 `i'_up_6 `i'_up_7 `i'_up_8 `i'_up_9 ///
             using `"${PATH_OUT_TABLES}/`2'_`i'_IVtable.tex"', replace type rstyle(tabular) ///
             head("\begin{table}[htb]" "\caption{Fixed Effects Results Using ${TABLETITLE}  Measure of Democracy: Two-Stage Least Squares with ${IVTITEL1}}" ///
@@ -50,7 +53,7 @@ foreach i in `inst' {
     }
 
 
-    else if x == "worldincome"{
+    else if "`i'" == "worldincome"{
         listtab `i'_up_colstring `i'_up_1 `i'_up_2 `i'_up_3 `i'_up_4 `i'_up_5 `i'_up_6 `i'_up_7 `i'_up_8 `i'_up_9 ///
             using `"${PATH_OUT_TABLES}/`2'_`i'_IVtable.tex"', replace type rstyle(tabular) ///
             head("\begin{table}[htb]" "\caption{Fixed Effects Results Using ${TABLETITLE} Measure of Democracy: Two-Stage Least Squares with ${IVTITLE2}}" ///

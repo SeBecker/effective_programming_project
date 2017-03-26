@@ -1,7 +1,8 @@
 /*
 The file "IVestimation.do" executes the Fixed effects analysis from Acemoglu 2008 s.823-827 :cite:`Acemoglu1` using two stage least squares with saving rate and trade weighted world income as instruments. Note that only the five year panel is used in for this regression analysis.
 First the file creates a log file in *bld/out/analysis/log* and loads the model specifications from *bld/src/model_specs*. Then it creates a local macro to save both instruments and executes a loop over both instruments for each measure of democracy.
-Since the regression process differs between both instruments in some aspects the do file generates an variable x = "instrument" which is used to seperate the foreach loop with if statements.
+Since the regression process differs between both instruments in some aspects some regressions are divided through if statements depending on the instrument that is used.
+
 Finally the regression results are saved in two types of matrices for each regression (second stage results and first stage results) which are merged seperately at the end of the do file and saved in *bld/out/analysis/`2'_`i'up_IVestimation_results.dta and *bld/out/analysis/`2'_`i'do_IVestimation_results.dta.
 
 The following regressions are run:
@@ -186,9 +187,9 @@ foreach i in `inst' {
 
 
     // Table 5/6 column 7 Fixed effects 2SLS (including labor share) with 5-year data and Instrument
-    ge x = "`i'"
 
-    if x == "nsave" {
+
+    if "`i'" == "nsave" {
 
         ivreg ${DEPVAR} L.${INDEP4} yr* cd* (L.${INDEP1}=L.(L.`i')) if ${SAMPLE}==1 , cluster(code)
 
@@ -199,7 +200,7 @@ foreach i in `inst' {
 
         mat `i'_7do = [ . \ . \ _b[L.${INDEP4}] \ _se[L.${INDEP4}] \ _b[L2.`i'] \ _se[L2.`i'] \ . \ . \ . \ . \ . \ . \ e(N) \ e(N_clust) \ e(r2)]
     }
-    else if x == "worldincome" {
+    else if "`i'" == "worldincome" {
 
         ivreg ${DEPVAR} ${INDEP5} yr* cd* (L.${INDEP1}=(L.`i')) if ${SAMPLE}==1 , cluster(code)
 
@@ -214,7 +215,7 @@ foreach i in `inst' {
 
 
     // Table 5/6 column 8 Fixed effects 2SLS (including lagged democracy in first stage) with 5-year data and Instrument
-    if x == "nsave" {
+    if "`i'" == "nsave" {
 
         ivreg ${DEPVAR} L(1/3).${DEPVAR} yr* cd* (L.${INDEP1}=L.(L.`i')) if ${SAMPLE}==1, cluster(code)
 
@@ -231,7 +232,7 @@ foreach i in `inst' {
         mat list `i'_8do
     }
 
-    else if x == "worldincome" {
+    else if "`i'" == "worldincome" {
 
      ivreg ${DEPVAR} (L.${INDEP1}=L.(L.`i')) yr* cd*  if ${SAMPLE}==1, cluster(code)
 
@@ -250,7 +251,7 @@ foreach i in `inst' {
 
 
     // Table 5/6 column 9 Fixed effects 2SLS (including lagged democracy in first stage) with 5-year data and Instrument
-    if x == "nsave" {
+    if "`i'" == "nsave" {
 
         ivreg ${DEPVAR} (L.${INDEP1}=L(1/2).(L.`i')) yr* cd*  if ${SAMPLE}==1, cluster(code)
 
@@ -261,7 +262,7 @@ foreach i in `inst' {
 
         mat `i'_9do = [. \ . \ .\ . \ _b[L2.`i'] \ _se[L2.`i']  \ _b[L3.`i'] \ _se[L3.`i'] \ . \ . \ . \ . \ e(N) \ e(N_clust) \ e(r2)]
     }
-    else if x == "worldincome" {
+    else if "`i'" == "worldincome" {
 
         ivreg ${DEPVAR} (L.${INDEP1}=L(1/2).(`i')) yr* cd*  if ${SAMPLE}==1, cluster(code)
 
@@ -290,8 +291,8 @@ foreach i in `inst' {
     replace `i'_up_colstring = "" if id==2
     replace `i'_up_colstring = "Log GDP per capita t-1" if id==3
     replace `i'_up_colstring = "" if id==4
-    replace `i'_up_colstring = "Labor Share t-1" if id==5 & x == "nsave"
-    replace `i'_up_colstring = "Trade-weighted democracy t" if id==5 & x == "worldincome"
+    replace `i'_up_colstring = "Labor Share t-1" if id==5 & "`i'" == "nsave"
+    replace `i'_up_colstring = "Trade-weighted democracy t" if id==5 & "`i'" == "worldincome"
     replace `i'_up_colstring = "" if id==6
 
     keep `i'_up_colstring `i'_up_1 `i'_up_2 `i'_up_3 `i'_up_4 `i'_up_5 `i'_up_6 `i'_up_7 `i'_up_8 `i'_up_9
@@ -303,20 +304,20 @@ foreach i in `inst' {
 
     svmat `i'_do, names(`i'_do_)
     format `i'_do_1 `i'_do_2 `i'_do_3 `i'_do_4 `i'_do_5 `i'_do_6 `i'_do_7 `i'_do_8 `i'_do_9 %9.3f
-    gen x = "`i'"
+
     gen id = _n
     sort id
     drop if id>15
     gen str `i'_do_colstring = "Democracy t-1" if id==1
     replace `i'_do_colstring = "" if id==2
-    replace `i'_do_colstring = "Labor Share t-1" if id==3 & x== "nsave"
-    replace `i'_do_colstring = "Trade weighted democracy t" if id==3 & x== "worldincome"
+    replace `i'_do_colstring = "Labor Share t-1" if id==3 & "`i'"== "nsave"
+    replace `i'_do_colstring = "Trade weighted democracy t" if id==3 & "`i'"== "worldincome"
     replace `i'_do_colstring = "" if id==4
-    replace `i'_do_colstring = "Saving rate t-2" if id==5 & x == "nsave"
-    replace `i'_do_colstring = "Trade-weighted log GDP t-1" if id==5 & x == "worldincome"
+    replace `i'_do_colstring = "Saving rate t-2" if id==5 & "`i'" == "nsave"
+    replace `i'_do_colstring = "Trade-weighted log GDP t-1" if id==5 & "`i'" == "worldincome"
     replace `i'_do_colstring = "" if id==6
-    replace `i'_do_colstring = "Saving rate t-3" if id==7 & x == "nsave"
-    replace `i'_do_colstring = "Trade weighted log GDP t-2" if id==7 & x == "worldincome"
+    replace `i'_do_colstring = "Saving rate t-3" if id==7 & "`i'" == "nsave"
+    replace `i'_do_colstring = "Trade weighted log GDP t-2" if id==7 & "`i'" == "worldincome"
     replace `i'_do_colstring = "" if id==8
     replace `i'_do_colstring = "Hansen J test" if id==9
     replace `i'_do_colstring = "AR(2) test" if id==10
@@ -325,7 +326,7 @@ foreach i in `inst' {
     replace `i'_do_colstring = "Observations" if id==13
     replace `i'_do_colstring = "Countries" if id==14
     replace `i'_do_colstring = "R squared in first stage" if id==15
-    drop x
+
 
     keep `i'_do_colstring `i'_do_1 `i'_do_2 `i'_do_3 `i'_do_4 `i'_do_5 `i'_do_6 `i'_do_7 `i'_do_8 `i'_do_9
 

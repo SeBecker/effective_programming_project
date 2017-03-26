@@ -1,3 +1,6 @@
+/*
+The file "figures.do" generates Figure 1 to 6 from Acemoglu 2008 :cite:`Acemoglu1`. First the file creates a log file in *bld/final/log* and load the individual specifications from *bld/src/model_specs*. Dependent on the specific do file which is loaded it generates a figure and saves the result in *bld/out/figures*. The process for figure 1 to 5 differs only in respect of the scaling. To show the dependency of changes in GDP and democracy independent from historical factors, the creation process of figure 6 includes several regressions to predict their specific residuals and implement them into the figure.
+*/
 
 
 // Read in the model controls
@@ -13,29 +16,28 @@ do `"${PATH_OUT_MODEL_SPECS}/`2'"'
 
 use `"${PATH_OUT_DATA}`2'_all"'
 
-ge x = "`2'"
 
-if x=="F1" {
+if "`2'"=="F1" {
     twoway (scatter ${DEPVAR} ${INDEP}, msymbol(none) mlabel(code) mlabsize(tiny)) (lfit ${DEPVAR} ${INDEP}, clcolor(black)), ytitle("${YTITLE}") xtitle("${XTITLE}") title("${TITLE}") subtitle("${SUBTITLE}") legend(off) xscale(r(6 10.6))
 
 }
 
-else if x=="F2"{
+else if "`2'"=="F2"{
     twoway (scatter ${DEPVAR} ${INDEP}, msymbol(none) mlabel(code) mlabsize(tiny)) (lfit ${DEPVAR} ${INDEP}, clcolor(black)), ytitle("${YTITLE}") xtitle("${XTITLE}") title("${TITLE}") subtitle("${SUBTITLE}") legend(off)
 
 }
 
-else if x=="F3"{
+else if "`2'"=="F3"{
     twoway (scatter ${DEPVAR} ${INDEP}, msymbol(none) mlabel(code) mlabsize(tiny)) (lfit ${DEPVAR} ${INDEP}, clcolor(black)), ytitle("${YTITLE}") xtitle("${XTITLE}") title("${TITLE}") subtitle("${SUBTITLE}") legend(off)
 
 }
 
-else if x=="F4"{
+else if "`2'"=="F4"{
     twoway (scatter ${DEPVAR} ${INDEP}, msymbol(none) mlabel(code) mlabsize(tiny)) (lfit ${DEPVAR} ${INDEP}, clcolor(black)), ytitle("${YTITLE}") xtitle("${XTITLE}") title("${TITLE}") subtitle("${SUBTITLE}") legend(off)
 
 }
 
-else if x=="F6" {
+else if "`2'"=="F6" {
     reg ${DEPVAR1} ${DEPVAR2} ${INDEP1} ${INDEP2} ${DUMMY}
     reg ${DEPVAR1} ${INDEP1} ${INDEP2} ${DUMMY} if e(sample)==1
     predict ${RESID1}, residuals

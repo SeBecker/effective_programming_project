@@ -1,3 +1,7 @@
+/*
+The file "table12.do" transfers the results from the fixed effects analysis (:ref:`fixed effects analysis`) into a latex table structure save the tex file in *bld/out/tables*.
+*/
+
 // Read in the model controls
 
 

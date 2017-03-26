@@ -3,27 +3,63 @@
 ************************************
 Visualisation and results formatting
 ************************************
+The folder *src/final* contains all files that
 
 
-Documentation of the code in *src/final*.
-
-.. note::
-
-    Some of these steps seem to fail on Linux because apparently Stata is not capable of saving png-figures in batch mode. Just do a search for "png" in the *src/final* directory and replace all occurences by "eps". Make sure that you allow LaTeX to call external commands (shell escape needs to be enabled).
+Table construction
+###################
 
 
-Figure 1 - Expropriation risk and log GDP plotted against log mortality
-=======================================================================
+Table 1 & 2 Fixed effects analysis
+==================================
+
+.. include:: ../final/table12.do
+    :start-after: /*
+    :end-before: */
 
 
-Table 1 - Regression of main variables on indicators
-====================================================
+Robustness Check
+================
+
+.. include:: ../final/robust_table.do
+    :start-after: /*
+    :end-before: */
+
+2SLS
+=====
+
+.. include:: ../final/IV_table.do
+    :start-after: /*
+    :end-before: */
+
+Long run analysis
+=================
+
+.. include:: ../final/long_table.do
+    :start-after: /*
+    :end-before: */
+
+Very long run analysis
+======================
+
+.. include:: ../final/very_long_table.do
+    :start-after: /*
+    :end-before: */
 
 
-Table 2 - First stage estimation of expropriation risk on log mortality
-=======================================================================
+Figures
+#######
+
+.. include:: ../final/figures.do
+    :start-after: /*
+    :end-before: */
 
 
-Table 3 - Second stage estimation of GDP on expropriation risk
-==============================================================
+
+
+
+
+
+
+
 

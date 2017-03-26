@@ -1,3 +1,7 @@
+/*
+The file "long_table.do" transfers the results from the fixed effects long run analysis (:ref:`very long run analysis`) into a latex table structure save the tex file in *bld/out/tables*.
+*/
+
 include project_paths
 
 
@@ -7,9 +11,8 @@ do `"${PATH_OUT_MODEL_SPECS}/very_long"'
 
 foreach i in A B {
     use `"${PATH_OUT_ANALYSIS}/very_long_`i'"'
-    sca def x = "`i'"
 
-    if x== "A" {
+    if "`i'"== "A" {
         listtab A_colstring A_1 A_2 A_3 A_4 ///
         using `"${PATH_OUT_TABLES}/very_long_A.tex"', replace type rstyle(tabular) ///
         head("\begin{table}[htb]" "\caption{Democracy In The Very Long Run}" ///
@@ -30,7 +33,7 @@ foreach i in A B {
         foot("\bottomrule" "\end{tabular}" "\end{adjustbox}" "\end{center}" "\end{table}" )
 
     }
-    else if x== "B" {
+    else if "`i'"== "B" {
         listtab B_colstring B_1 B_2 B_3 B_4 B_5 B_6 B_7 ///
         using `"${PATH_OUT_TABLES}/very_long_B.tex"', replace type rstyle(tabular) ///
         head("\begin{table}[htb]" "\caption{Democracy In The Very Long Run}" ///
