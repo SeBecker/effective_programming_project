@@ -1,3 +1,17 @@
+/*
+The file "regression.do"
+I
+
+*/
+
+
+
+
+
+
+
+
+
 // Read in the model controls
 include project_paths
 

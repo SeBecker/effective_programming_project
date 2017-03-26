@@ -1,6 +1,5 @@
 /*
-The file "add_new_data.do" adds the new data from AJR (2005) to the
-dataset as described in Albouy (2012).
+The file "copy.do" opens the original data set and saves a copy in *bld/src/data_managament* such that continuing operations doesn't effect the original data set.
 
 */
 

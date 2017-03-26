@@ -8,14 +8,13 @@ Welcome to the Replication - Income and Democracy by Acemoglu, Johnson, Robinson
 ================================================
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 15
 
     introduction
     original_data
     data_management
     analysis
     final
-    paper
     model_code
     model_specs
     library

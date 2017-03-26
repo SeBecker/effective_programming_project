@@ -1,6 +1,7 @@
 /*
-The file "add_new_data.do" adds the new data from AJR (2005) to the
-dataset as described in Albouy (2012).
+The file "adjust_panel.do" tells stata that the data set has a panel (code_numeric) and time series structure (year_numeric).
+Furthermore it sorts the data set relating to the country code and the specific year of observations, generates country and year specific dummies to prepare the data set for fixed effects analysis. Last but not least the data set is saved in *bld/src/data_management* such that continuing operations doesn't effect the original data set.
+
 
 */
 

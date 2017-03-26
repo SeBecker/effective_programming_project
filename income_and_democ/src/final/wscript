@@ -110,7 +110,7 @@ def build(ctx):
                     ctx.path_to(ctx, 'OUT_FINAL', 'log',
                                 '{}_figures6.log'.format(f)),
                     ctx.path_to(ctx, 'OUT_FIGURES',
-                                '{}.eps'.format(f))
+                                '{}.png'.format(f))
                 ],
                 deps=[
                     ctx.path_to(ctx, 'OUT_DATA', '{}_all.dta'.format(f))
@@ -132,7 +132,7 @@ def build(ctx):
                     ctx.path_to(ctx, 'OUT_FINAL', 'log',
                                 '{}_figures.log'.format(f)),
                     ctx.path_to(ctx, 'OUT_FIGURES',
-                                '{}.eps'.format(f))
+                                '{}.png'.format(f))
                 ],
                 deps=[
                     ctx.path_to(ctx, 'OUT_DATA', '{}_all.dta'.format(f))

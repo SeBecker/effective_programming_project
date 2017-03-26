@@ -1,3 +1,100 @@
+/*
+The file "IVestimation.do" executes the Fixed effects analysis from Acemoglu 2008 s.823-827 :cite:`Acemoglu1` using two stage least squares with saving rate and trade weighted world income as instruments. Note that only the five year panel is used in for this regression analysis.
+First the file creates a log file in *bld/out/analysis/log* and loads the model specifications from *bld/src/model_specs*. Then it creates a local macro to save both instruments and executes a loop over both instruments for each measure of democracy.
+Since the regression process differs between both instruments in some aspects the do file generates an variable x = "instrument" which is used to seperate the foreach loop with if statements.
+Finally the regression results are saved in two types of matrices for each regression (second stage results and first stage results) which are merged seperately at the end of the do file and saved in *bld/out/analysis/`2'_`i'up_IVestimation_results.dta and *bld/out/analysis/`2'_`i'do_IVestimation_results.dta.
+
+The following regressions are run:
+
+Pooled and Fixed effects OLS
+============================
+
+Pooled OLS
+-----------
+        .. literalinclude:: ../../src/analysis/IVestimation.do
+            :lines: 115-116
+
+    Pooled cross sectional OLS Regression of ${DEPVAR} on lags of ${INDEP1} including time dummies and robust standard errors clustured by country.As always it uses robust standard errors clustered by country. Note that the regression only includes observations which are used in the IV estimation (if e(sample)).
+
+Fixed effects OLS
+------------------
+
+        .. literalinclude:: ../../src/analysis/IVestimation.do
+            :lines: 126-127
+
+    Fixed effects OLS of ${DEPVAR} on lags of ${INDEP1}. Regression includes time and country specific dummies to respect time and country specific fixed effects. As always it uses robust standard errors clustered by country. Note that the regression only includes observations which are used in the IV estimation (if e(sample)).
+
+Fixed effects OLS
+------------------
+
+        .. literalinclude:: ../../src/analysis/IVestimation.do
+            :lines: 136-137
+
+    Fixed effects OLS of ${DEPVAR} on lags of ${INDEP1} and ${DEPVAR}. Regression includes time and country specific dummies to respect time and country specific fixed effects. As always it uses robust standard errors clustered by country. Note that the regression only includes observations which are used in the IV estimation (if e(sample)).
+
+Fixed effects 2SLS and GMM
+===========================
+
+Fixed effects 2SLS
+------------------
+
+        .. literalinclude:: ../../src/analysis/IVestimation.do
+            :lines: 150
+
+    IV estimation of ${DEPVAR} using either a lag (Trade weighted World Income) or a double lag (Saving Rates) of the specific instument variable as instruments to estimate ${INDEP1}. As always it uses robust standard errors clustered by country.
+
+
+Fixed effects 2SLS
+------------------
+
+        .. literalinclude:: ../../src/analysis/IVestimation.do
+            :lines: 165
+
+    IV estimation of ${DEPVAR} using either a lag (Trade weighted World Income) or a double lag (Saving Rates) of the specific instument variable as instrument to estimate ${INDEP1}. As always it uses robust standard errors clustered by country.
+
+
+
+Arellano-Bond GMM
+------------------
+
+        .. literalinclude:: ../../src/analysis/IVestimation.do
+            :lines: 177
+
+    The regression uses the GMM of Arellano and Bond :cite:`Arellano` to regress ${DEPVAR} on lags of ${INDEP1} and ${DEPVAR} with robust standard errors and time specific dummies. (including sentence Acemoglu1 s. 823)
+
+
+Fixed effects 2SLS
+------------------
+
+        .. literalinclude:: ../../src/analysis/IVestimation.do
+            :lines: 193, 203
+
+    IV estimation of ${DEPVAR} using either a lag (Trade weighted World Income) or a double lag (Saving Rates) of the specific instument variable as instrument to estimate ${INDEP1}. In addition to the previous 2SLS estimations this also includes {INDEP4} (Saving Rates) or {INDEP5} (Trade weighted World Income). As always it uses robust standard errors clustered by country.
+
+
+Fixed effects 2SLS
+------------------
+
+        .. literalinclude:: ../../src/analysis/IVestimation.do
+            :lines: 219, 221 , 236
+
+        IV estimation of ${DEPVAR} using either a lag (Trade weighted World Income) or a double lag (Saving Rates) of the specific instument variable as instrument to estimate ${INDEP1}. In contrast to the previous 2SLS regressions this one includes 1, 2 and 3 period lags of the specific democracy measure and performs a joint significance test for all three lags (only for Saving Rate Instrument). As always it uses robust standard errors clustered by country.
+
+
+Fixed effects 2SLS
+------------------
+
+        .. literalinclude:: ../../src/analysis/IVestimation.do
+            :lines: 255, 266
+
+        IV estimation of ${DEPVAR} using either a lag and a double lag (Trade weighted World Income) or a double lag and a tripple lag (Saving Rates) of the specific instument variable as instrument to estimate ${INDEP1}. As always it uses robust standard errors clustered by country.
+
+
+
+
+*/
+
+
 
 // Read in the model controls
 include project_paths
@@ -15,7 +112,7 @@ foreach i in `inst' {
 
     // Table 5/6 column 1 Pooled OLS with 5-year data and Instrument
 
-    ivreg ${DEPVAR} yr* cd* (L.${INDEP1}=L.(L.`i')) if sample==1, cluster(code)
+    ivreg ${DEPVAR} yr* cd* (L.${INDEP1}=L.(L.`i')) if ${SAMPLE}==1, cluster(code)
     reg ${DEPVAR} L.${INDEP1} yr* if e(sample)==1, cluster(code)
 
     mat `i'_1up = [. \ .\ _b[L.${INDEP1}] \ _se[L.${INDEP1}]\ . \ .]
@@ -92,6 +189,7 @@ foreach i in `inst' {
     ge x = "`i'"
 
     if x == "nsave" {
+
         ivreg ${DEPVAR} L.${INDEP4} yr* cd* (L.${INDEP1}=L.(L.`i')) if ${SAMPLE}==1 , cluster(code)
 
         mat `i'_7up = [. \ . \_b[L.${INDEP1}]\ _se[L.${INDEP1}]\ _b[L.${INDEP4}]\ _se[L.${INDEP4}]]
@@ -164,6 +262,7 @@ foreach i in `inst' {
         mat `i'_9do = [. \ . \ .\ . \ _b[L2.`i'] \ _se[L2.`i']  \ _b[L3.`i'] \ _se[L3.`i'] \ . \ . \ . \ . \ e(N) \ e(N_clust) \ e(r2)]
     }
     else if x == "worldincome" {
+
         ivreg ${DEPVAR} (L.${INDEP1}=L(1/2).(`i')) yr* cd*  if ${SAMPLE}==1, cluster(code)
 
         mat `i'_9up = [ . \ . \ _b[L.${INDEP1}] \ _se[L.${INDEP1}]\ .  \ . ]

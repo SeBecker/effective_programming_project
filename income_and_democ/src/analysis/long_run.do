@@ -1,3 +1,62 @@
+/*
+The file "long_run.do" replicates the table 7 from Acemoglu 2008 s.828 :cite:`Acemoglu1`. Note that this estimations uses only the Polity measure of democracy (polity4) as dependent variable.
+First the file creates a log file in *bld/out/analysis/log* and loads the model specifications from *bld/src/model_specs/POL.do*. The file loops over 25 and 50 such that all regressions are made for both the 25 and the 50 year panel (see also :ref:`original_data`). All regressions uses a balanced panel for period between 1875 and 2000. After each regression the results are saved in a matrix. Finally all matrices are merged at the end of the do file and saved in *bld/out/analysis/long_run_`i'.dta*.
+I
+The following regressions are run:
+
+Pooled OLS
+===========
+
+    .. literalinclude:: ../../src/analysis/long_run.do
+        :lines: 75
+
+    Pooled OLS regression of ${DEPVAR} on lags of ${DEPVAR} and ${INDEP1}. The regression includes time dummies and uses robust standard errors clustured by the highest level of aggregation for income data (madid).
+
+Fixed effects OLS
+=================
+
+    .. literalinclude:: ../../src/analysis/long_run.do
+        :lines: 83
+
+    Fixed effects OLS regression of ${DEPVAR} on lags of ${DEPVAR} and ${INDEP1}. The regression includes time and country dummies and uses robust standard errors clustured by the highest level of aggregation for income data (madid).
+
+Arellano-Bond GMM
+=================
+
+    .. literalinclude:: ../../src/analysis/long_run.do
+        :lines: 91
+
+    The regression uses the GMM of Arellano and Bond :cite:`Arellano` with robust standard errors. Income is instrumented by using a double lag of Income.
+
+Fixed effects OLS
+=================
+
+    .. literalinclude:: ../../src/analysis/long_run.do
+        :lines: 99
+
+    Fixed effects OLS regression of ${DEPVAR} on lags of ${DEPVAR} and ${INDEP1}. The regression includes time and country dummies and uses robust standard errors clustured by the highest level of aggregation for income data (madid).
+
+Fixed effects OLS
+=================
+
+    .. literalinclude:: ../../src/analysis/long_run.do
+        :lines: 106
+
+    Fixed effects OLS regression of ${DEPVAR} on lag of  ${INDEP1}. The regression includes time and country dummies and uses robust standard errors clustured by the highest level of aggregation for income data (madid). Furthermore this regression excludes countries for which the level of aggregation for income data changesacross the sample period.
+
+
+
+
+
+
+
+*/
+
+
+
+
+
+
 
 // Read in the model controls
 include project_paths

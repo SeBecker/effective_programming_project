@@ -19,7 +19,7 @@ predict ${RESID2}, residuals
 twoway (scatter ${RESID1} ${RESID2} if e(sample)==1, msymbol(none) mlabel(code) mlabsize(tiny)) (lfit ${RESID1} ${RESID2} if e(sample)==1, clcolor(black)), ytitle("${YTITLE}") xtitle("${XTITLE}") title("${TITLE}") subtitle("${SUBTITLE}") t2title(${T2TITLE}, size(medium)) legend(off)
 
 
-graph export `"${PATH_OUT_FIGURES}/`2'.eps"', replace
+graph export `"${PATH_OUT_FIGURES}/`2'.png"', replace
 
 
 
