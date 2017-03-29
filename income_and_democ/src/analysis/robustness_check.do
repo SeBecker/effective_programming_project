@@ -11,15 +11,15 @@ The following regressions refers to the Balanced panel (${SAMPLEBALFE} or ${SAMP
 Fixed effects OLS
 -----------------
         .. literalinclude:: ../../src/analysis/robustness_check.do
-            :lines: 98
+            :lines: 101
 
-    Here a regression of ${DEPVAR} on lagged ${DEPVAR} and ${INDEP1} is executed. Time and country specific dummies are included to consider time and country fixed effects. Standard errors are robust and clustured by country.
+    Here a regression of ${DEPVAR} on lags of ${DEPVAR} and ${INDEP1} is executed. Year and country dummies are included to consider time and country fixed effects. Standard errors are robust and clustured by country.
 
 Arellano-Bond GMM
 -----------------
         .. literalinclude:: ../../src/analysis/robustness_check.do
-            :lines: 109
-    The regression uses the GMM of Arellano and Bond :cite:`Arellano`.
+            :lines: 112
+    The regression uses the GMM approach of Arellano and Bond :cite:`Arellano`. Income is instrumented by using a double lag of Income.
 
 
 Base Sample without former socialist countries
@@ -29,15 +29,15 @@ The next regressions exclude former socialist countries.
 Fixed effects OLS
 -----------------
         .. literalinclude:: ../../src/analysis/robustness_check.do
-            :lines: 120
+            :lines: 123
 
     Here a regression of ${DEPVAR} on lagged ${DEPVAR} and ${INDEP1} is executed. Time and country specific dummies are included to consider time and country fixed effects. Standard errors are robust and clustured by country. Observations are only included if ${SAMPLE} and ${SOCIAL} are equal to 1.
 
 Arellano-Bond GMM
 -----------------
         .. literalinclude:: ../../src/analysis/robustness_check.do
-            :lines: 130
-    The regression uses the GMM of Arellano and Bond :cite:`Arellano`.
+            :lines: 133
+    The regression uses the GMM of Arellano and Bond :cite:`Arellano`. Income is instrumented by using a double lag of Income.
 
 Base Sample 1960-2000
 =====================
@@ -46,31 +46,36 @@ Regression 5 and 6 include log population and the age structure as independend v
 Fixed effects OLS
 -----------------
         .. literalinclude:: ../../src/analysis/robustness_check.do
-            :lines: 139
+            :lines: 142
+
     This regression adds lagged Age parameters and log population to the previous fixed effect regression template. Furthermore it includes a significance test for all age structure paramters.
+
         .. literalinclude:: ../../src/analysis/robustness_check.do
-            :lines: 144-145
+            :lines: 147
 
 
 Arellano-Bond GMM
 -----------------
         .. literalinclude:: ../../src/analysis/robustness_check.do
-            :lines: 152
-    The regression uses the GMM of Arellano and Bond :cite:`Arellano` and also includes lagged log population and age structure parameters.
+            :lines: 155
+
+    The regression uses the GMM of Arellano and Bond :cite:`Arellano` and also includes lagged log population and age structure parameters. As before income is instrumented by using a double lag of Income.
 
 Fixed effects OLS
 -----------------
         .. literalinclude:: ../../src/analysis/robustness_check.do
-            :lines: 164
+            :lines: 167
+
     This regression adds education parameters in the analysis. Furthermore it includes a significance test for all age structure paramters.
+
         .. literalinclude:: ../../src/analysis/robustness_check.do
-            :lines: 169-170
+            :lines: 172
 
 Arellano-Bond GMM
 -----------------
         .. literalinclude:: ../../src/analysis/robustness_check.do
-            :lines: 177
-    The regression uses the GMM of Arellano and Bond :cite:`Arellano` and adds education as a independent variable to the 6th regression.
+            :lines: 180
+    The regression uses the GMM approach by Arellano and Bond :cite:`Arellano` and adds education as a independent variable to the 6th regression. As before income is instrumented by using a double lag of Income.
 
 
 
@@ -78,8 +83,6 @@ Arellano-Bond GMM
 
 
 */
-
-
 
 
 

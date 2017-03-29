@@ -1,9 +1,9 @@
 /*
-The file "IVestimation.do" executes the Fixed effects analysis from Acemoglu 2008 s.823-827 :cite:`Acemoglu1` using two stage least squares with saving rate and trade weighted world income as instruments. Note that only the five year panel is used in for this regression analysis.
-First the file creates a log file in *bld/out/analysis/log* and loads the model specifications from *bld/src/model_specs*. Then it creates a local macro to save both instruments and executes a loop over both instruments for each measure of democracy.
+The file "IVestimation.do" executes the Fixed effects analysis from Acemoglu 2008 s.823-827 :cite:`Acemoglu1` using two stage least squares with saving rate and trade weighted world income as instruments. Note that only the five year panel is used for this regression analysis.
+First the file creates a log file in *bld/out/analysis/log* and loads the model specifications from *bld/src/model_specs*. Then it creates a local macro to save both instruments and executes a loop over both instruments.
 Since the regression process differs between both instruments in some aspects some regressions are divided through if statements depending on the instrument that is used.
 
-Finally the regression results are saved in two types of matrices for each regression (second stage results and first stage results) which are merged seperately at the end of the do file and saved in *bld/out/analysis/`2'_`i'up_IVestimation_results.dta and *bld/out/analysis/`2'_`i'do_IVestimation_results.dta.
+Finally the regression results are saved in two types of matrices for each regression (second stage results and first stage results) which are merged seperately at the end of the do file and saved in *bld/out/analysis/`2'_`i'up_IVestimation_results.dta* and *bld/out/analysis/`2'_`i'do_IVestimation_results.dta*.
 
 The following regressions are run:
 
@@ -15,7 +15,7 @@ Pooled OLS
         .. literalinclude:: ../../src/analysis/IVestimation.do
             :lines: 115-116
 
-    Pooled cross sectional OLS Regression of ${DEPVAR} on lags of ${INDEP1} including time dummies and robust standard errors clustured by country.As always it uses robust standard errors clustered by country. Note that the regression only includes observations which are used in the IV estimation (if e(sample)).
+    Pooled cross sectional OLS Regression of ${DEPVAR} on lags of ${INDEP1} including time dummies and robust standard errors clustured by country. Note that the regression only includes observations which are used in the IV estimation (if e(sample)).
 
 Fixed effects OLS
 ------------------
@@ -23,7 +23,7 @@ Fixed effects OLS
         .. literalinclude:: ../../src/analysis/IVestimation.do
             :lines: 126-127
 
-    Fixed effects OLS of ${DEPVAR} on lags of ${INDEP1}. Regression includes time and country specific dummies to respect time and country specific fixed effects. As always it uses robust standard errors clustered by country. Note that the regression only includes observations which are used in the IV estimation (if e(sample)).
+    Fixed effects OLS of ${DEPVAR} on lags of ${INDEP1}. Regression includes year and country dummies to respect time and country specific fixed effects. As always it uses robust standard errors clustered by country. Note that the regression only includes observations which are used in the IV estimation (if e(sample)).
 
 Fixed effects OLS
 ------------------
@@ -31,7 +31,7 @@ Fixed effects OLS
         .. literalinclude:: ../../src/analysis/IVestimation.do
             :lines: 136-137
 
-    Fixed effects OLS of ${DEPVAR} on lags of ${INDEP1} and ${DEPVAR}. Regression includes time and country specific dummies to respect time and country specific fixed effects. As always it uses robust standard errors clustered by country. Note that the regression only includes observations which are used in the IV estimation (if e(sample)).
+    Fixed effects OLS of ${DEPVAR} on lags of ${INDEP1} and ${DEPVAR}. Regression includes year and country dummies to respect time and country specific fixed effects. As always it uses robust standard errors clustered by country. Note that the regression only includes observations which are used in the IV estimation (if e(sample)).
 
 Fixed effects 2SLS and GMM
 ===========================
@@ -51,7 +51,7 @@ Fixed effects 2SLS
         .. literalinclude:: ../../src/analysis/IVestimation.do
             :lines: 165
 
-    IV estimation of ${DEPVAR} using either a lag (Trade weighted World Income) or a double lag (Saving Rates) of the specific instument variable as instrument to estimate ${INDEP1}. As always it uses robust standard errors clustered by country.
+    IV estimation of ${DEPVAR} using either a lag (Trade weighted World Income) or a double lag (Saving Rates) of the specific instument variable as instrument to estimate ${INDEP1}. Incontrast to the regression before, this one includes lag ${DEPVAR} as an regressor. As always it uses robust standard errors clustered by country.
 
 
 
@@ -61,7 +61,7 @@ Arellano-Bond GMM
         .. literalinclude:: ../../src/analysis/IVestimation.do
             :lines: 177
 
-    The regression uses the GMM of Arellano and Bond :cite:`Arellano` to regress ${DEPVAR} on lags of ${INDEP1} and ${DEPVAR} with robust standard errors and time specific dummies. (including sentence Acemoglu1 s. 823)
+    The regression uses the GMM of Arellano and Bond :cite:`Arellano` to regress ${DEPVAR} on lags of ${INDEP1} and ${DEPVAR} with robust standard errors and time specific dummies. Income is instrumented in the first differenced equation with the first difference of the instrument.
 
 
 Fixed effects 2SLS
@@ -79,7 +79,7 @@ Fixed effects 2SLS
         .. literalinclude:: ../../src/analysis/IVestimation.do
             :lines: 219, 221 , 236
 
-        IV estimation of ${DEPVAR} using either a lag (Trade weighted World Income) or a double lag (Saving Rates) of the specific instument variable as instrument to estimate ${INDEP1}. In contrast to the previous 2SLS regressions this one includes 1, 2 and 3 period lags of the specific democracy measure and performs a joint significance test for all three lags (only for Saving Rate Instrument). As always it uses robust standard errors clustered by country.
+        IV estimation of ${DEPVAR} using either a lag (Trade weighted World Income) or a double lag (Saving Rates) of the specific instument variable as instrument to estimate ${INDEP1}. In contrast to the previous 2SLS regressions this one includes lags, double lags and tripple lags of the specific democracy measure and performs a joint significance test for all three lags (only for Saving Rate Instrument). As always it uses robust standard errors clustered by country.
 
 
 Fixed effects 2SLS
@@ -88,7 +88,7 @@ Fixed effects 2SLS
         .. literalinclude:: ../../src/analysis/IVestimation.do
             :lines: 255, 266
 
-        IV estimation of ${DEPVAR} using either a lag and a double lag (Trade weighted World Income) or a double lag and a tripple lag (Saving Rates) of the specific instument variable as instrument to estimate ${INDEP1}. As always it uses robust standard errors clustered by country.
+        IV estimation of ${DEPVAR} using either a lag and a double lag (Trade weighted World Income) or a double lag and a tripple lag (Saving Rates) of the specific instrument to estimate ${INDEP1}. As always it uses robust standard errors clustered by country.
 
 
 
@@ -102,7 +102,6 @@ include project_paths
 log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
 
 do `"${PATH_OUT_MODEL_SPECS}/`2'"'
-
 
 
 

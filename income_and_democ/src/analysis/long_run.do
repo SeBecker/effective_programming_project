@@ -1,5 +1,5 @@
 /*
-The file "long_run.do" replicates the table 7 from Acemoglu 2008 s.828 :cite:`Acemoglu1`. Note that this estimations uses only the Polity measure of democracy (polity4) as dependent variable.
+The file "long_run.do" replicates the table 7 from Acemoglu 2008 s.828 :cite:`Acemoglu1`. Note that this analysis uses only the Polity measure of democracy (polity4) as dependent variable.
 First the file creates a log file in *bld/out/analysis/log* and loads the model specifications from *bld/src/model_specs/POL.do*. The file loops over 25 and 50 such that all regressions are made for both the 25 and the 50 year panel (see also :ref:`original_data`). All regressions uses a balanced panel for period between 1875 and 2000. After each regression the results are saved in a matrix. Finally all matrices are merged at the end of the do file and saved in *bld/out/analysis/long_run_`i'.dta*.
 I
 The following regressions are run:

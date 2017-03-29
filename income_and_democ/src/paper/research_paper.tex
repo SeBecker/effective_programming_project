@@ -13,6 +13,23 @@
 \usepackage{xfrac}
 \usepackage{setspace}
 \usepackage{xcolor}
+\usepackage{mathptmx}
+\usepackage[a4paper]{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=3cm,rmargin=2cm}
+\usepackage{textcomp}
+\usepackage{esint}
+\usepackage{nomencl}
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{fp}
+\usepackage{numprint}
+\usepackage{expl3}
+\usepackage[section]{placeins}
+
+
 % \usepackage{pdf14} % Enable for Manuscriptcentral -- can't handle pdf 1.5
 % \usepackage{endfloat} % Enable to move tables / figures to the end. Useful for some submissions.
 
@@ -55,6 +72,7 @@
 
 \begin{document}
 
+
 \title{Replication - Income and Democracy by Acemoglu, Johnson, Robinson and Yared
 \thanks{Sebastian Becker: University of Bonn, Address. \href{mailto:x@y.z} {\nolinkurl{x [at] y [dot] z}}, tel.~+00000.}
 % subtitle:
@@ -86,35 +104,79 @@
 
 If you are using this template, please cite this item from the references: \citet{GaudeckerEconProjectTemplates}
 
-The running example is \citeauthor{Albouy12}'s \citeyear{Albouy12} replication study of \citeauthor{AcemogluJohnsonRobinson01}'s classic \citeyear{AcemogluJohnsonRobinson01} paper. The code is a split-up and modified version of what is found accompanying the paper at \url{http://dx.doi.org/10.1257/aer.102.6.3059}.
-
-It is often useful to include formulas in both the paper and the presentation, so we keep them in a subdirectory. As an example, let's use the simple IV system:
-\input{formulas/iv}
-with the well-known assumptions.
-
-The remaining tables and figures are included without annotations.\\[4ex]
-
 % section introduction (end)
 
 
-\input{../../out/tables/table1_reg_on_indicators.tex}
+
+\newpage{}
+
+\section{Figures}
 
 
-
-\begin{figure}
-	\includegraphics[width=\textwidth]{../../out/figures/risk_mort}
+\begin{figure}[!htbp]
+	\includegraphics{../../out/figures/F1.png}
 \end{figure}
 
 
-\begin{figure}
-	\includegraphics[width=\textwidth]{../../out/figures/gdp_mort}
+\begin{figure}[!htbp]
+	\includegraphics{../../out/figures/F2.png}
+\end{figure}
+\begin{figure}[!htbp]
+    \includegraphics{../../out/figures/F3.png}
+\end{figure}
+\begin{figure}[!htbp]
+    \includegraphics{../../out/figures/F4.png}
+\end{figure}
+\begin{figure}[!htbp]
+    \includegraphics{../../out/figures/F5.png}
+\end{figure}
+\begin{figure}[!htbp]
+    \includegraphics{../../out/figures/F6.png}
 \end{figure}
 
 
+\newpage{}
 
-\input{../../out/tables/table2_first_stage_est.tex}
+\section{Tables}
 
-\input{../../out/tables/table3_second_stage_est.tex}
+\subsection{Fixed effects analysis}
+\input{../../out/tables/FHI.tex}
+
+\input{../../out/tables/POL.tex}
+
+\newpage{}
+
+\subsection{Robustness Check}
+
+\input{../../out/tables/FHI_robust.tex}
+
+\input{../../out/tables/POL_robust.tex}
+\newpage{}
+
+
+\subsection{Fixed effects results using 2SLS}
+
+\input{../../out/tables/FHI_nsave_IVtable.tex}
+
+\input{../../out/tables/FHI_worldincome_IVtable.tex}
+
+\newpage{}
+
+\input{../../out/tables/POL_nsave_IVtable.tex}
+
+\input{../../out/tables/POL_worldincome_IVtable.tex}
+
+
+\subsection{Fixed effects analysis in the long run}
+
+\input{../../out/tables/long_run_table.tex}
+
+
+\subsection{Democracy in the very long run}
+
+\input{../../out/tables/very_long_A.tex}
+
+\input{../../out/tables/very_long_B.tex}
 
 \clearpage
 \setstretch{1}

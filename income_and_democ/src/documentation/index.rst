@@ -15,7 +15,6 @@ Welcome to the Replication - Income and Democracy by Acemoglu, Johnson, Robinson
     data_management
     analysis
     final
-    model_code
     model_specs
     library
     references

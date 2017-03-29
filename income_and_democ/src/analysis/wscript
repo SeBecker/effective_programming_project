@@ -135,7 +135,7 @@ def build(ctx):
 
         ],
         deps=[
-            ctx.path_to(ctx, 'OUT_DATA', '500_year_panel_all.dta'),
+            ctx.path_to(ctx, 'OUT_DATA', '500_year_data_all.dta'),
             ctx.path_to(ctx, 'OUT_MODEL_SPECS', 'very_long.do'),
         ],
         name='very_long_run',

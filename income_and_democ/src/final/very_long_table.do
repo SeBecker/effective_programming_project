@@ -1,5 +1,5 @@
 /*
-The file "long_table.do" transfers the results from the fixed effects long run analysis (:ref:`very long run analysis`) into a latex table structure save the tex file in *bld/out/tables*.
+The file "long_table.do" transfers the results from the fixed effects long run analysis (:ref:`very long run analysis`) into a latex table structure and saves the tex file in *bld/out/tables*.
 */
 
 include project_paths

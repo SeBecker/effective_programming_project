@@ -1,5 +1,5 @@
 /*
-The file "robust_table.do" transfers the results from the robustness check (:ref:`robustness check`) into a latex table structure save the tex file in *bld/out/tables*.
+The file "robust_table.do" transfers the results from the robustness check (:ref:`robustness check`) into a latex table structure and  saves the tex file in *bld/out/tables*.
 */
 
 // Read in the model controls

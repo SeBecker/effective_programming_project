@@ -1,6 +1,6 @@
 /*
 The file "regression.do" executes the fixed effects analysis from Acemoglu 2008 :cite:`Acemoglu1`.
-Firstly the file creates a log file in *bld/out/analysis/log* and loads the model specifications from *bld/src/model_specs*. After each regression the results are saved in a matrix which are merged at the end of the do file and saved in *bld/out/analysis/`2'_estimation_results.dta.
+First the file creates a log file in *bld/out/analysis/log* and loads the model specifications from *bld/src/model_specs*. After each regression the results are saved in a matrix which are merged at the end of the do file and saved in *bld/out/analysis/`2'_estimation_results.dta.
 
 .. literalinclude:: ../../src/analysis/regression.do
     :lines: 217-239
@@ -13,7 +13,7 @@ The following regressions are run:
 Five Year panel
 ===============
 
-The following regressions use the Five year panel data set. For more information see also :
+The following regressions use the Five year panel data set. For more information see also :ref:`5 Year Panel data`
 
 Pooled cross-sectional OLS
 ---------------------------
@@ -44,7 +44,7 @@ Arellano-Bond GMM
         .. literalinclude:: ../../src/analysis/regression.do
             :lines: 154
 
-        The 4th regression uses the GMM of Arellano and Bond :cite:`Arellano`.
+        The 4th regression uses the GMM approach by Arellano and Bond :cite:`Arellano`. Income is instrumented by a double lag of income.
 
 Fixed effects OLS
 -----------------
@@ -55,24 +55,23 @@ Fixed effects OLS
 
 Annual panel
 ============
-The following regression uses the annual panel data set for more information see also:
+The following regression uses the annual panel data set. For more information see also :ref:`Annual panel data`
 
 Fixed effects OLS
 -----------------
         .. literalinclude:: ../../src/analysis/regression.do
             :lines: 172
 
-        The next regression of ${DEPVAR} includes lagged values of ${DEPVAR and ${INDEP1} as far as 5 periods before the dependend variable. Also it includes country and time specific dummies and robust standard errors which are clustured by country.
+        The next regression of ${DEPVAR} includes lags of ${DEPVAR and ${INDEP1} as far as 5 periods before the dependend variable. Also it includes country and time specific dummies and robust standard errors which are clustured by country.
 
         Furthermore two significance tests for all five lags of ${DEPVAR} and ${INDEP1} are executed.
 
         .. literalinclude:: ../../src/analysis/regression.do
             :lines: 174-179
 
-
 Ten Year Panel
 ==============
-The following regression uses the ten year panel data set for more information see also:
+The following regression uses the ten year panel data set. For more information see also :ref:`10 year panel data`
 
 
 Fixed effects OLS
@@ -88,23 +87,24 @@ Arellano-Bond GMM
             :lines: 197
 
 
-        Exactly as the 4th regression of the five year panel data set this regression uses the GMM of Arellano and Bond :cite:`Arellano`.
+        Exactly as the 4th regression of the five year panel data set this regression uses the GMM approach of Arellano and Bond :cite:`Arellano`.Income is instrumented by using a double lag of Income.
 
 Twenty year panel
 =================
-The following regression uses the ten year panel data set for more information see also:
+The following regression uses the ten year panel data set. For more information see also :ref:`20 year panel data`
 
 Fixed effects OLS
 -----------------
         .. literalinclude:: ../../src/analysis/regression.do
             :lines: 209
 
-        This regression is similar to the second regression from the Five Year Panel section. It regresses ${DEPVAR} on lagged ${DEPVAR} and ${INDEP1}. ALso it includes time and country specific dummies to respect time and country specific fixed effects. As always it uses robust standard errors clustered by country and observations are only included as dependend variable as long as ${SAMPLE} is equal to 1.
+        This regression is similar to the second regression from the Five Year Panel section. It regresses ${DEPVAR} on lagged ${DEPVAR} and ${INDEP1}. ALso it includes time and country dummies to respect time and country specific fixed effects. As always it uses robust standard errors clustered by country and observations are only included as dependend variable as long as ${SAMPLE} is equal to 1.
 
 
 
 
 */
+
 
 
 // Read in the model controls

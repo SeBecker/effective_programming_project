@@ -32,7 +32,7 @@ Both files contains the following specifications which are used for all regressi
 #. INDEP5 - worlddemocracy
 
     Variable constructed by using the `Freedom House Political Rights Index <https://freedomhouse.org/report-types/freedom-world>`_, GDP per capita from `Penn World Tables <http://dc1.chass.utoronto.ca/cgi-bin/pwt61/retrieve_pwt61>`_ and average trade shares between 1980 and 1989 from IMF :cite:`IMF2005`.
-    See also Bollen
+    See also Bollen 2001 :cite:`Bollen`
 
 #. INDEP6 - lrgdpmad
 
@@ -102,11 +102,13 @@ The files differ in the specification of the dependent variable:
 
 #. FHI.json DEPVAR  - fhpolrigaug
 
-    `Freedom House Political Rights Index <https://freedomhouse.org/report-types/freedom-world>`_, Data for 1972-2000, data for 1950, 1955, 1960, 1965 from Bollen :cite:`Bollen`. The Index is normalized between 0 and 1.
+    `Freedom House Political Rights Index <https://freedomhouse.org/report-types/freedom-world>`_, Data for 1972-2000, data for 1950, 1955, 1960, 1965 from Bollen 2001 :cite:`Bollen`. The Index is normalized between 0 and 1.
 
 #. POL.json DEPVAR - polity4
 
     `Polity Composite Democracy Index <http://www.systemicpeace.org/polity/polity4x.htm>`_ , normalized between 0 and 1.
+
+.. _Model specification very_long:
 
 very_long.json
 ##############
@@ -159,6 +161,9 @@ The file very_long.json contains specifications for the analysis of the 500 year
 #. LIST3 - rel_catho80:
 
     Share of catholic population in 1980.
+
+.. _Model specification figures:
+
 
 F1.json, F2.json, F3.json, F4.json, F5.json and F6.json
 ########################################################

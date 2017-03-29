@@ -1,16 +1,114 @@
 /*
-The file "yery_long_run.do" replicates the estimation for Table 8A and 8B from Acemoglu 2008 s.833 :cite:`Acemoglu1`. First the file creates a log file in *bld/out/analysis/log* and loads the model specifications from *bld/src/model_specs/very_long.do*.
-I
+The file "very_long_run.do" replicates the estimation for Table 8A and 8B from Acemoglu 2008 s.833/834 :cite:`Acemoglu1`. First the file creates a log file in *bld/out/analysis/log* and loads the model specifications from *bld/src/model_specs/very_long.do* (see also :ref:`Model specification very_long`) and the 500 year data set from *bld/out/data*.
+
+The following regressions are run:
+
+Base sample 1500-2000
+=====================
+
+OLS 1
+-----
+
+    .. literalinclude:: ../../src/analysis/very_long_run.do
+        :lines: 125
+
+    OLS regression of ${DEPVAR} on ${INDEP1}. Observations are only included if ${DUMMY2} equals 1. Standard errors are robust and clustured by level of aggregation for 1500 income data (madid).
+
+OLS 2
+-----
+
+    .. literalinclude:: ../../src/analysis/very_long_run.do
+        :lines: 131
+
+    OLS regression of ${DEPVAR} on ${INDEP1}, ${INDEP2} and {INDEP3}. Observations are only included if ${DUMMY2} equals 1. Standard errors are robust and clustured by level of aggregation for 1500 income data (madid). Furthermore a joint significance test is performed for all variables but ${INDEP1}.
+
+    .. literalinclude:: ../../src/analysis/very_long_run.do
+        :lines: 133
+
+OLS 3
+-----
+
+    .. literalinclude:: ../../src/analysis/very_long_run.do
+        :lines: 139
+
+    OLS regression of ${DEPVAR} on ${INDEP1}, ${INDEP4} (see also :ref:`Model specification very_long`). Observations are only included if ${DUMMY2} equals 1. Standard errors are robust and clustered by level of aggregation for 1500 income data (madid). Furthermore a joint significance test is performed for all variables but ${INDEP1} .
+
+OLS 4
+-----
+
+    .. literalinclude:: ../../src/analysis/very_long_run.do
+        :lines: 147
+
+    OLS regression of ${DEPVAR} on ${INDEP1}, ${INDEP4}, {INDEP2} and ${INDEP3} (see also :ref:`Model specification very_long`). Observations are only included if ${DUMMY2} equals 1. Standard errors are robust and clustered by level of aggregation for 1500 income data (madid). Furthermore a joint significance test is performed for all variables but ${INDEP1} .
+
+
+Former colony sample
+====================
+
+The following regressions include only former colonies (${DUMMY}==1).
+
+OLS1
+----
+    .. literalinclude:: ../../src/analysis/very_long_run.do
+        :lines: 155
+
+    OLS regression of ${DEPVAR} on ${INDEP1}. Observations are only included if ${DUMMY1} equals 1. Standard errors are robust and clustured by level of aggregation for 1500 income data (madid).
+
+OLS 2
+-----
+
+    .. literalinclude:: ../../src/analysis/very_long_run.do
+        :lines: 161
+
+    OLS regression of ${DEPVAR} on ${INDEP1}, ${INDEP2} and {INDEP3}. Observations are only included if ${DUMMY1} equals 1. Standard errors are robust and clustured by level of aggregation for 1500 income data (madid). Furthermore a joint significance test is performed for all variables but ${INDEP1} .
+
+
+OLS 3
+-----
+
+    .. literalinclude:: ../../src/analysis/very_long_run.do
+        :lines: 169
+
+    OLS regression of ${DEPVAR} on ${INDEP1}, ${INDEP4}. Observations are only included if ${DUMMY1} equals 1. Standard errors are robust and clustered by level of aggregation for 1500 income data (madid). As before a joint significance test is performed for all variables but ${INDEP1} .
+
+OLS 4
+-----
+
+    .. literalinclude:: ../../src/analysis/very_long_run.do
+        :lines: 177
+
+    OLS regression of ${DEPVAR} on ${INDEP1}, ${INDEP4}, {INDEP2} and ${INDEP3}. Observations are only included if ${DUMMY1} equals 1. Standard errors are robust and clustered by level of aggregation for 1500 income data (madid). As in OLS 2, a joint significance test is performed for all variables but ${INDEP1} .
+
+
+OLS 5
+-----
+
+    .. literalinclude:: ../../src/analysis/very_long_run.do
+        :lines: 185
+
+    OLS regression of ${DEPVAR} on ${INDEP1} and ${INDEP5}. Observations are only included if ${DUMMY1} equals 1. Standard errors are robust and clustered by level of aggregation for 1500 income data (madid). As in OLS 2, a joint significance test is performed for all variables but ${INDEP1} .
+
+
+OLS 6
+-----
+
+    .. literalinclude:: ../../src/analysis/very_long_run.do
+        :lines: 193
+
+    OLS regression of ${DEPVAR} on ${INDEP1}, ${INDEP5}, ${INDEP2} and ${INDEP3}. Observations are only included if ${DUMMY1} equals 1. Standard errors are robust and clustered by level of aggregation for 1500 income data (madid). As in OLS 2, a joint significance test is performed for all variables but ${INDEP1} .
+
+
+
+OLS 7
+-----
+
+    .. literalinclude:: ../../src/analysis/very_long_run.do
+        :lines: 201
+
+    OLS regression of ${DEPVAR} on ${INDEP1}, ${INDEP5}, ${INDEP4} ${INDEP2} and ${INDEP3}. Observations are only included if ${DUMMY1} equals 1. Standard errors are robust and clustered by level of aggregation for 1500 income data (madid). As in OLS 2, a joint significance test is performed for all variables but ${INDEP1} .
+
 
 */
-
-
-
-
-
-
-
-
 
 // Read in the model controls
 include project_paths
@@ -19,7 +117,7 @@ log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
 
 do `"${PATH_OUT_MODEL_SPECS}/very_long"'
 
-use `"${PATH_OUT_DATA}//500_year_panel_all"'
+use `"${PATH_OUT_DATA}//500_year_data_all"'
 
 
 // Table A column 1

@@ -1,5 +1,5 @@
 /*
-The file "IV_table.do" transfers the results from the IV estimation (:ref:`IV estimation`) into a latex table structure and save the tex file in *bld/out/tables*.
+The file "IV_table.do" transfers the results from the IV estimation (:ref:`IV estimation`) into a latex table structure and saves the tex file in *bld/out/tables*.
 */
 
 // Read in the model controls

@@ -16,115 +16,276 @@
     draw,
     fill=brown!25
 }]
-    \node (add_variables_do) [fill=blue!15, shift={(-6, 3.5)}]
+    \node (adjust_panel_do) [fill=blue!15, shift={(-6, 3.5)}]
     {
-        add\_variables.do
+        adjust\_panel.do
     };
-    \node (ajrcomment_dta) [fill=blue!15, shift={(-6, 2)}]
+    \node (50_year_panel_dta) [fill=blue!15,  minimum width=3cm, minimum height=0.4cm, shift={(-5.6, 1.6)}] {};
+    \node (25_year_panel_dta) [fill=blue!15,  minimum width=3cm, minimum height=0.4cm, shift={(-5.7, 1.7)}] {};
+    \node (20_year_panel_dta) [fill=blue!15,  minimum width=3cm, minimum height=0.4cm, shift={(-5.8, 1.8)}] {};
+    \node (10_year_panel_dta) [fill=blue!15,  minimum width=3cm, minimum height=0.4cm, shift={(-5.9, 1.9)}] {};
+    \node (5_year_panel_dta) [fill=blue!15,  minimum width=3cm, minimum height=0.4cm, shift={(-6, 2)}]
     {
-        ajrcomment.dta
-    };
-    \node (newdata_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-5.6, 0.1)}] {};
-    \node (rmconj_addindic_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-5.7, 0.2)}] {};
-    \node (rmconj_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-5.8, 0.3)}] {};
-    \node (addindic_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-5.9, 0.4)}] {};
-    \node (baseline_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-6, 0.5)}]
-    {
-        baseline.json
-    };
-    \node (geography_json) [fill=blue!15, shift={(-6, -1)}]
-    {
-        geography.json
-    };
-
-    \node (ajrcomment_all_dta) [shift={(-2, 2)}]
-    {
-        ajrcomment\_all.dta
-    };
-    \node (first_stage_estimation_do) [fill=blue!15, shift={(-2, -2.5)}]
-    {
-        first\_stage\_estimation.do
-    };
-    \node (regression_on_indicators_do) [fill=blue!15, shift={(-2, 3.5)}]
-    {
-        regression\_on\_indicators.do
-    };
-    \node (geography_do) [shift={(-2, -1)}]
-    {
-        geography.do
-    };
-    \node (newdata_do) [minimum width=3cm, minimum height=0.4cm, shift={(-1.6, 0.1)}] {};
-    \node (rmconj_addindic_do) [minimum width=3cm, minimum height=0.4cm, shift={(-1.7, 0.2)}] {};
-    \node (rmconj_do) [minimum width=3cm, minimum height=0.4cm, shift={(-1.8, 0.3)}] {};
-    \node (addindic_do) [minimum width=3cm, minimum height=0.4cm, shift={(-1.9, 0.4)}] {};
-    \node (baseline_do) [minimum width=3cm, minimum height=0.4cm, shift={(-2, 0.5)}]
-    {
-        baseline.do
+        5\_year\_panel.dta
     };
 
 
-
-    \node (regression_on_indicators_dta) [shift={(3.5, 3.5)}]
+    \node (POL_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-5.9, 0.4)}] {};
+    \node (FHI_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-6, 0.5)}]
     {
-        regression\_on\_indicators.dta
+        FHI.json
     };
 
-
-    \node (first_stage_estimation_newdata_dta) [minimum width=5.2cm, minimum height=0.4cm, shift={(3.9, -2.9)}] {};
-    \node (first_stage_estimation_rmconj_addindic_dta) [minimum width=5.2cm, minimum height=0.4cm, shift={(3.8, -2.8)}] {};
-    \node (first_stage_estimation_rmconj_dta) [minimum width=5.2cm, minimum height=0.4cm, shift={(3.7, -2.7)}] {};
-    \node (first_stage_estimation_addindic_dta) [minimum width=5.2cm, minimum height=0.4cm, shift={(3.6, -2.6)}] {};
-    \node (first_stage_estimation_baseline_dta) [minimum width=5.2cm, minimum height=0.4cm, shift={(3.5, -2.5)}]
+    \node (very_long_json) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-5.4, -1.6)}] {};
+    \node (F6_json) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-5.5, -1.5)}] {};
+    \node (F5_json) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-5.6, -1.4)}] {};
+    \node (F4_json) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-5.7, -1.3)}] {};
+    \node (F3_json) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-5.8, -1.2)}] {};
+    \node (F2_json) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-5.9, -1.1)}] {};
+    \node (F1_json) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-6, -1)}]
     {
-        first\_stage\_estimation\_baseline.dta
+        F1.json
     };
 
-    \node (table2_first_stage_est_tex) [shift={(9, -2.5)}]
+    \node (50_year_panel_all_dta) [ minimum width=3cm, minimum height=0.4cm, shift={(-1.6, 1.6)}] {};
+    \node (25_year_panel_all_dta) [ minimum width=3cm, minimum height=0.4cm, shift={(-1.7, 1.7)}] {};
+    \node (20_year_panel_all_dta) [ minimum width=3cm, minimum height=0.4cm, shift={(-1.8, 1.8)}] {};
+    \node (10_year_panel_all_dta) [ minimum width=3cm, minimum height=0.4cm, shift={(-1.9, 1.9)}] {};
+    \node (5_year_panel_all_dta) [ minimum width=3cm, minimum height=0.4cm, shift={(-2, 2)}]
     {
-        table2\_first\_stage\_est.tex
-    };
-    \node (table2_first_stage_est_do) [fill=blue!15, shift={(9, -1)}]
-    {
-        table2\_first\_stage\_est.do
-    };
-    \node (table1_reg_on_indicators_do) [fill=blue!15, shift={(9, 2)}]
-    {
-        table1\_reg\_on\_indicators.do
-    };
-    \node (table1_reg_on_indicators_tex) [shift={(9, 3.5)}]
-    {
-        table1\_reg\_on\_indicators.tex
+        5\_year\_panel\_all.dta
     };
 
-    \node (research_paper_tex) [fill=blue!15, shift={(13, -1)}]
+    \node (500_year_panel_dta) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-5.4, -3.1)}]{};
+    \node (F6_dta) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-5.5, -3.0)}]{};
+    \node (F5_dta) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-5.6, -2.9)}]{};
+    \node (F4_dta) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-5.7, -2.8)}]{};
+    \node (F3_dta) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-5.8, -2.7)}]{};
+    \node (F2_dta) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-5.9, -2.6)}]{};
+    \node (F1_dta) [fill=blue!15, minimum width=2.5cm, minimum height=0.4cm, shift={(-6, -2.5)}]
+    {
+        F1.dta
+    };
+
+
+    \node (copy_do) [fill=blue!15, shift={(-6, -4)}]
+    {
+        copy.do
+    };
+    \node (500_year_panel_all_dta) [minimum width=2.5cm, minimum height=0.4cm, shift={(-1.4, -3.1)}] {};
+    \node (F6_all_dta) [minimum width=2.5cm, minimum height=0.4cm, shift={(-1.5, -3)}]{};
+    \node (F5_all_dta) [minimum width=2.5cm, minimum height=0.4cm, shift={(-1.6, -2.9)}]{};
+    \node (F4_all_dta) [minimum width=2.5cm, minimum height=0.4cm, shift={(-1.7, -2.8)}]{};
+    \node (F3_all_dta) [minimum width=2.5cm, minimum height=0.4cm, shift={(-1.8, -2.7)}]{};
+    \node (F2_all_dta) [minimum width=2.5cm, minimum height=0.4cm, shift={(-1.9, -2.6)}]{};
+    \node (F1_all_dta) [minimum width=2.5cm, minimum height=0.4cm, shift={(-2, -2.5)}]
+    {
+        F1\_all.dta
+    };
+    \node (very_long_do) [minimum width=2.5cm, minimum height=0.4cm, shift={(-1.4, -1.6)}] {};
+    \node (F6_do) [minimum width=2.5cm, minimum height=0.4cm, shift={(-1.5, -1.5)}] {};
+    \node (F5_do) [minimum width=2.5cm, minimum height=0.4cm, shift={(-1.6, -1.4)}] {};
+    \node (F4_do) [minimum width=2.5cm, minimum height=0.4cm, shift={(-1.7, -1.3)}] {};
+    \node (F3_do) [minimum width=2.5cm, minimum height=0.4cm, shift={(-1.8, -1.2)}] {};
+    \node (F2_do) [minimum width=2.5cm, minimum height=0.4cm, shift={(-1.9, -1.1)}] {};
+    \node (F1_do) [minimum width=2.5cm, minimum height=0.4cm, shift={(-2, -1)}]
+    {
+        F1.do
+    };
+
+    \node (POL_do) [minimum width=3cm, minimum height=0.4cm, shift={(-1.9, 0.4)}] {};
+    \node (FHI_do) [minimum width=3cm, minimum height=0.4cm, shift={(-2, 0.5)}]
+    {
+        FHI.do
+    };
+    \node (POL_worldincomedo_IVestimation_results_dta) [minimum width=4cm, minimum height=0.4cm, shift={(4.05, 2.95)}]
+    {};
+    \node (POL_worlincomeup_IVestimation_results_dta) [minimum width=4cm, minimum height=0.4cm, shift={(4, 3.0)}]
+    {};
+    \node (POL_nsavedo_IVestimation_results_dta) [minimum width=4cm, minimum height=0.4cm, shift={(3.95, 3.05)}]
+    {};
+    \node (POL_nsaveup_IVestimation_results_dta) [minimum width=4cm, minimum height=0.4cm, shift={(3.9, 3.1)}]
+    {};
+    \node (FHI_worldincomedo_IVestimation_results_dta) [minimum width=4cm, minimum height=0.4cm, shift={(3.85, 3.15)}]
+    {};
+    \node (FHI_worldincomeup_IVestimation_results_dta) [minimum width=4cm, minimum height=0.4cm, shift={(3.8, 3.2)}]
+    {};
+    \node (FHI_nsavedo_IVestimation_results_dta) [minimum width=4cm, minimum height=0.4cm, shift={(3.75, 3.25)}]
+    {};
+    \node (FHI_nsaveup_IVestimation_results_dta) [minimum width=4cm, minimum height=0.4cm, shift={(3.7, 3.3)}]
+    {};
+    \node (POL_robustness_check_results_dta) [minimum width=4cm, minimum height=0.4cm, shift={(3.65, 3.35)}]
+    {};
+    \node (FHI_robustness_check_results_dta) [minimum width=4cm, minimum height=0.4cm, shift={(3.6, 3.4)}]
+    {};
+    \node (POL_estimation_results_dta) [minimum width=4cm, minimum height=0.4cm, shift={(3.55, 3.45)}]
+    {};
+    \node (FHI_estimation_results_dta) [minimum width=4cm, minimum height=0.4cm, shift={(3.5, 3.5)}]
+    {
+        FHI\_estimation\_results.dta
+    };
+
+    \node (POL_IVestimation_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(4, 1.5)}]
+    {};
+    \node (FHI_IVestimation_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.9, 1.6)}]
+    {};
+    \node (POL_robustness_check_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.8, 1.7)}]
+    {};
+    \node (FHI_robustness_check_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.7, 1.8)}]
+    {};
+    \node (POL_regression_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.6, 1.9)}]
+    {};
+    \node (FHI_regression_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.5, 2)}]
+    {
+        FHI\_regression.do
+    };
+
+
+    \node (IVestimation_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.7, 0.3)}]
+    {};
+    \node (robustness_check_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.6, 0.4)}]
+    {};
+    \node (regression_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.5, 0.5)}]
+    {
+        regression.do
+    };
+
+    \node (figures_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.5, -0.75)}]
+    {
+        figures.do
+    };
+
+    \node (F6_figures_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(4, -2.5)}]
+    {};
+    \node (F5_figures_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.9, -2.4)}]
+    {};
+    \node (F4_figures_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.8, -2.3)}]
+    {};
+    \node (F3_figures_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.7, -2.2)}]
+    {};
+    \node (F2_figures_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.6, -2.1)}]
+    {};
+    \node (F1_figures_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(3.5, -2)}]
+    {
+        F1\_figures.do
+    };
+
+    \node (F6_png) [ minimum width=3cm, minimum height=0.4cm, shift={(4, -4)}]
+    {};
+    \node (F5_png) [ minimum width=3cm, minimum height=0.4cm, shift={(3.9, -3.9)}]
+    {};
+    \node (F4_png) [ minimum width=3cm, minimum height=0.4cm, shift={(3.8, -3.8)}]
+    {};
+    \node (F3_png) [ minimum width=3cm, minimum height=0.4cm, shift={(3.7, -3.7)}]
+    {};
+    \node (F2_png) [ minimum width=3cm, minimum height=0.4cm, shift={(3.6, -3.6)}]
+    {};
+    \node (F1_png) [ minimum width=3cm, minimum height=0.4cm, shift={(3.5, -3.5)}]
+    {
+        F1.png
+    };
+
+
+
+
+
+
+    \node (IV_table_do) [fill=blue!15,minimum width=3cm, minimum height=0.4cm, shift={(9.2, -0.2)}]
+    {};
+    \node (robust_table_do) [fill=blue!15,minimum width=3cm, minimum height=0.4cm, shift={(9.1, -0.1)}]
+    {};
+    \node (table12_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(9, 0.0)}]
+    {
+        table12.do
+    };
+
+    \node (POL_IV_table_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm,  shift={(9.5, 1)}]
+    {};
+    \node (POL_robust_table_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(9.4, 1.1)}]
+    {};
+    \node (POL_table12_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(9.3, 1.2)}]
+    {};
+    \node (FHI_IV_table_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(9.2, 1.3)}]
+    {};
+    \node (FHI_robust_table_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(9.1, 1.4)}]
+    {};
+    \node (FHI_table12_do) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(9, 1.5)}]
+    {
+        FHI\_table12.do
+    };
+
+    \node (FHI_robust_tex) [ minimum width=3cm, minimum height=0.4cm,shift={(9.7, 2.8)}]
+    {};
+    \node (POL_robust_tex) [ minimum width=3cm, minimum height=0.4cm,shift={(9.6, 2.9)}]
+    {};
+    \node (POL_worldincome_IVtable_tex) [ minimum width=3cm, minimum height=0.4cm,shift={(9.5, 3.0)}]
+    {};
+    \node (FHI_worldincome_IVtable_tex) [ minimum width=3cm, minimum height=0.4cm,shift={(9.4, 3.1)}]
+    {};
+    \node (FHI_nsave_IVtable_tex) [ minimum width=3cm, minimum height=0.4cm, shift={(9.3, 3.2)}]
+    {};
+    \node (POL_nsave_IVtable_tex) [ minimum width=3cm, minimum height=0.4cm, shift={(9.2, 3.3)}]
+    {};
+    \node (POL_tex) [ minimum width=3cm, minimum height=0.4cm, shift={(9.1, 3.4)}]
+    {};
+
+    \node (FHI_tex) [  minimum width=3cm, minimum height=0.4cm, shift={(9, 3.5)}]
+    {
+        FHI.tex
+    };
+
+    \node (research_paper_tex) [fill=blue!15, shift={(12, -3)}]
     {
         research\_paper.tex
     };
-    \node (research_paper_pdf) [shift={(13, 0.5)}]
+    \node (research_paper_pdf) [shift={(12, -1.5)}]
     {
         research\_paper.pdf
     };
-    \draw[->, blue, thick] (ajrcomment_all_dta) to (add_variables_do.east);
-    \draw[->, blue, thick] (ajrcomment_all_dta) to (ajrcomment_dta);
+    \draw[->, blue, thick] (5_year_panel_all_dta) to (adjust_panel_do.east);
+    \draw[->, blue, thick] (5_year_panel_all_dta) to (-4.25, 2);
 
-    \draw[->, brown, thick] (baseline_do) to (-4.25, 0.5);
-    \draw[->, brown, thick] (geography_do) to (geography_json);
+    \draw[->, brown, thick] (FHI_do) to (FHI_json);
+    \draw[->, brown, thick] (F1_do) to (F1_json);
 
-    \draw[->, orange, thick] (first_stage_estimation_baseline_dta) to (first_stage_estimation_do);
-    \draw[->, orange, thick] (first_stage_estimation_baseline_dta.west) to (newdata_do.east);
-    \draw[->, orange, thick] (first_stage_estimation_baseline_dta.west) to (geography_do.east);    
-    \draw[->, orange, thick] (first_stage_estimation_baseline_dta) to (ajrcomment_all_dta.355);
-    \draw[->, orange, thick] (regression_on_indicators_dta) to (regression_on_indicators_do);
-    \draw[->, orange, thick] (regression_on_indicators_dta) to (ajrcomment_all_dta.5);
-    
-    \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (regression_on_indicators_dta);
-    \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (table1_reg_on_indicators_do);
-    \draw[->, teal, thick] (table2_first_stage_est_tex) to (6.35, -2.5);
-    \draw[->, teal, thick] (table2_first_stage_est_tex) to (table2_first_stage_est_do);
+    \draw[->, blue, thick] (-3, -2.9) to (copy_do.east);
+    \draw[->, blue, thick] (F1_all_dta) to (-4.5, -2.5);
+
+    %FHI res to FHI reg
+    \draw[->, orange, thick] (3.5, 2.9) to (3.5,2.2);
+    %FHI_reg to FHI
+    \draw[->, orange, thick] (2, 2.1) to (-0.5,0.5);
+    %FHI_reg to rg
+    \draw[->, orange, thick] (3.5, 1.5) to (3.5,0.75);
+
+
+
+
+    \draw[->, orange, thick] (1.5 , 3.5 ) to (5_year_panel_all_dta.5);
+    \draw[->, orange, thick] (F1_figures_do) to (F1_do);
+    \draw[->, orange, thick] (F1_figures_do) to (figures_do);
+    \draw[->, orange, thick] (F1_png) to (3.5, -2.6);
+    \draw[->, orange, thick] (F1_png) to (F1_all_dta);
+    \draw[->, orange, thick] (F1_png) to (F1_all_dta);
+
+
+    \draw[->, teal, thick] (FHI_tex) to (FHI_estimation_results_dta);
+    \draw[->, teal, thick] (9, 2.6) to (FHI_table12_do);
+    \draw[->, teal, thick] (9, 0.85) to (table12_do);
+
+
+
+
+
+
+
+
 
     \draw[->, red, thick] (research_paper_pdf) to (research_paper_tex.north);
-    \draw[->, red, thick] (research_paper_pdf) to (table1_reg_on_indicators_tex.east);
-    \draw[->, red, thick] (research_paper_pdf) .. controls (11, -1) .. (table2_first_stage_est_tex.8);
+    \draw[->, red, thick] (research_paper_pdf) to (11, 2.6);
+    \draw[->, red, thick] (research_paper_pdf) to (F1_png.east);
+
+
 \end{tikzpicture}
 
 \end{document}
