@@ -21,7 +21,7 @@ foreach i in `inst' {
     if "`i'" == "nsave" {
         listtab `i'_up_colstring `i'_up_1 `i'_up_2 `i'_up_3 `i'_up_4 `i'_up_5 `i'_up_6 `i'_up_7 `i'_up_8 `i'_up_9 ///
             using `"${PATH_OUT_TABLES}/`2'_`i'_IVtable.tex"', replace type rstyle(tabular) ///
-            head("\begin{table}[htb]" "\caption{Fixed Effects Results Using ${TABLETITLE}  Measure of Democracy: Two-Stage Least Squares with ${IVTITEL1}}" ///
+            head("\begin{table}[!htb]" "\caption{Fixed Effects Results Using ${TABLETITLE}  Measure of Democracy: Two-Stage Least Squares with ${IVTITEL1}}" ///
             "\footnotesize" "\begin{center}" "\begin{adjustbox}{max width=\textwidth}" "\begin{tabular}{lccccccccc}" ///
             "\toprule" ///
             "& \multicolumn{9}{c}{Base Sample, 1960-2000} \\" ///
@@ -56,7 +56,7 @@ foreach i in `inst' {
     else if "`i'" == "worldincome"{
         listtab `i'_up_colstring `i'_up_1 `i'_up_2 `i'_up_3 `i'_up_4 `i'_up_5 `i'_up_6 `i'_up_7 `i'_up_8 `i'_up_9 ///
             using `"${PATH_OUT_TABLES}/`2'_`i'_IVtable.tex"', replace type rstyle(tabular) ///
-            head("\begin{table}[htb]" "\caption{Fixed Effects Results Using ${TABLETITLE} Measure of Democracy: Two-Stage Least Squares with ${IVTITLE2}}" ///
+            head("\begin{table}[!htb]" "\caption{Fixed Effects Results Using ${TABLETITLE} Measure of Democracy: Two-Stage Least Squares with ${IVTITLE2}}" ///
             "\footnotesize" "\begin{center}" "\begin{adjustbox}{max width=\textwidth}" "\begin{tabular}{lccccccccc}" ///
             "\toprule" ///
             "& \multicolumn{9}{c}{Base Sample, 1960-2000} \\" ///

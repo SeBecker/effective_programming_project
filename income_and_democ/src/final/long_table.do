@@ -15,7 +15,7 @@ do `"${PATH_OUT_MODEL_SPECS}/POL"'
 use `"${PATH_OUT_ANALYSIS}/long_run_25"', clear
     listtab POL_25_colstring POL_25_1 POL_25_2 POL_25_3 POL_25_4 POL_25_5 ///
     using `"${PATH_OUT_TABLES}/long_run_table.tex"', replace type rstyle(tabular) ///
-    head("\begin{table}[htb]" "\caption{Fixed Effects Results Using ${TABLETITLE}  Measure of Democracy in the Long Run}" ///
+    head("\begin{table}[!htb]" "\caption{Fixed Effects Results Using ${TABLETITLE}  Measure of Democracy in the Long Run}" ///
     "\footnotesize" "\begin{center}" "\begin{adjustbox}{max width=\textwidth}" "\begin{tabular}{lccccc}" ///
     "\toprule" ///
     "\midrule" ///

@@ -15,7 +15,7 @@ foreach i in A B {
     if "`i'"== "A" {
         listtab A_colstring A_1 A_2 A_3 A_4 ///
         using `"${PATH_OUT_TABLES}/very_long_A.tex"', replace type rstyle(tabular) ///
-        head("\begin{table}[htb]" "\caption{Democracy In The Very Long Run}" ///
+        head("\begin{table}[!htb]" "\caption{Democracy In The Very Long Run}" ///
         "\footnotesize" "\begin{center}" "\begin{adjustbox}{max width=\textwidth}" "\begin{tabular}{lcccc}" ///
         "\toprule" ///
         "\midrule" ///
@@ -36,7 +36,7 @@ foreach i in A B {
     else if "`i'"== "B" {
         listtab B_colstring B_1 B_2 B_3 B_4 B_5 B_6 B_7 ///
         using `"${PATH_OUT_TABLES}/very_long_B.tex"', replace type rstyle(tabular) ///
-        head("\begin{table}[htb]" "\caption{Democracy In The Very Long Run}" ///
+        head("\begin{table}[!htb]" "\caption{Democracy In The Very Long Run}" ///
         "\footnotesize" "\begin{center}" "\begin{adjustbox}{max width=\textwidth}" "\begin{tabular}{lccccccc}" ///
         "\toprule" ///
         "\midrule" ///
