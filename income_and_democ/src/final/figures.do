@@ -54,7 +54,7 @@ else {
 
 }
 
-graph export `"${PATH_OUT_FIGURES}/`2'.png"', replace
+graph export `"${PATH_OUT_FIGURES}/`2'.eps"', replace
 
 
 log close

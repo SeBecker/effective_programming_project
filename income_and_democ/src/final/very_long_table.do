@@ -29,6 +29,7 @@ foreach i in A B {
         "\midrule" ///
         "& \multicolumn{4}{c}{\multirow{3}{*}{\shortstack[c]{Dependent variable is change in democracy \\ over sample period}}} \\" ///
         "& & & & \\" ///
+        "\vspace{0.1cm}\\ " ///
         "\cmidrule(lr){2-5}" ) ///
         foot("\bottomrule" "\end{tabular}" "\end{adjustbox}" "\end{center}" "\end{table}" )
 

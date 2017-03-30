@@ -18,6 +18,11 @@ sort code_numeric year_numeric
 tab year, gen (yr)
 tab code, gen(cd)
 
+if "`2'"== "5_year" {
+    ssc install xtabond2, replace
+    }
+
+
 save "${PATH_OUT_DATA}/`2'_panel_all", replace
 
 

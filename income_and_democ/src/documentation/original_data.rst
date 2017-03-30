@@ -12,7 +12,7 @@ The data sets are provided by Daron Acemoglu's on his `Hompage <http://economics
 
 #.  Annual_panel.dta
 
-The data set includes yearly observations of 211 different countries over a time span from 1940 to 2000.
+        The data set includes yearly observations of 211 different countries over a time span from 1940 to 2000.
 
 .. _5 year panel data:
 
@@ -49,7 +49,7 @@ The data set includes yearly observations of 211 different countries over a time
 
 #.  500_year_data.dta
 
-    The data set
+        The data set includes the change in democracy from 1500 to 2000 and other related variables for 173 countries. In contrast to all previous files it has no panel structure.
 
 .. _Figure data:
 

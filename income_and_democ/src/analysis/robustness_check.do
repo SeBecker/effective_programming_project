@@ -196,15 +196,15 @@ svmat `2'_robust, names(`2'_robust_)
     sort id
     drop if id>16
 
-    gen str `2'_colstring = "Democracy t-1" if id==1
+    gen str `2'_colstring = "\$ \text{Democracy}_{t-1} \$" if id==1
     replace `2'_colstring = "" if id==2
-    replace `2'_colstring = "Log GDP per capita t-1" if id==3
+    replace `2'_colstring = "\$ \text{Log GDP per capita}_{t-1} \$" if id==3
     replace `2'_colstring = "" if id==4
-    replace `2'_colstring = "Log population t-1" if id==5
+    replace `2'_colstring = "\$ \text{Log population}_{t-1} \$" if id==5
     replace `2'_colstring = "" if id==6
-    replace `2'_colstring = "Education t-1" if id==7
+    replace `2'_colstring = "\$ \text{Education}_{t-1} \$" if id==7
     replace `2'_colstring = "" if id==8
-    replace `2'_colstring = "Age structure t-1" if id==9
+    replace `2'_colstring = "\$ \text{Age structure}_{t-1}\$" if id==9
     replace `2'_colstring = "Hansen J test" if id==10
     replace `2'_colstring = "AR(2) test" if id==11
     replace `2'_colstring = "Implied cumultative \\effect of income" if id==12

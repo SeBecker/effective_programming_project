@@ -1,11 +1,11 @@
 /*
 The file "regression.do" executes the fixed effects analysis from Acemoglu 2008 :cite:`Acemoglu1`.
-First the file creates a log file in *bld/out/analysis/log* and loads the model specifications from *bld/src/model_specs*. After each regression the results are saved in a matrix which are merged at the end of the do file and saved in *bld/out/analysis/`2'_estimation_results.dta.
+First the file creates a log file in *bld/out/analysis/log* and loads the model specifications from *bld/src/model_specs*. After each regression the results are saved in a matrix which are merged at the end of the do file and saved in *bld/out/analysis/`2'_estimation_results.dta*. This process is the same for all files in *src/analysis*.
+
+
 
 .. literalinclude:: ../../src/analysis/regression.do
     :lines: 217-239
-
-
 
 
 The following regressions are run:
@@ -101,9 +101,10 @@ Fixed effects OLS
         This regression is similar to the second regression from the Five Year Panel section. It regresses ${DEPVAR} on lagged ${DEPVAR} and ${INDEP1}. ALso it includes time and country dummies to respect time and country specific fixed effects. As always it uses robust standard errors clustered by country and observations are only included as dependend variable as long as ${SAMPLE} is equal to 1.
 
 
-
-
 */
+
+
+
 
 
 
@@ -113,7 +114,6 @@ log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
 
 do `"${PATH_OUT_MODEL_SPECS}/`2'"'
 
-ssc install xtabond2, replace
 
 use `"${PATH_OUT_DATA}//5_year_panel_all"', clear
 
@@ -217,14 +217,14 @@ mat ${DEPVAR}_fixed20 = [_b[L1.${DEPVAR}]\ _se[L.${DEPVAR}]\ _b[L1.${INDEP1}] \ 
 mat `2' =[${DEPVAR}_pool, ${DEPVAR}_fixed1, ${DEPVAR}_AndHsiaoIV, ${DEPVAR}_GMMIV, ${DEPVAR}_fixed2, ${DEPVAR}_fixedannual, ${DEPVAR}_fixed10, ${DEPVAR}_GMMIV10, ${DEPVAR}_fixed20 ]
 
 svmat `2', names(`2'_)
-format `2'_1 `2'_2 `2'_3 `2'_4 `2'_5 `2'_6 `2'_7 `2'_8 `2'_9 %9.2f
+format `2'_1 `2'_2 `2'_3 `2'_4 `2'_5 `2'_6 `2'_7 `2'_8 `2'_9 %9.3f
 gen id = _n
 sort id
 drop if id>11
-gen str `2'_colstring = "Democracy t-1" if id==1
-replace `2'_colstring = "SE Democracy t-1" if id==2
-replace `2'_colstring = "Log GDP per capita t-1" if id==3
-replace `2'_colstring = "SE Log GDP per capita t-1" if id==4
+gen str `2'_colstring = "\$ \text{Democracy}_{t-1} \$" if id==1
+replace `2'_colstring = "" if id==2
+replace `2'_colstring = "\$ \text{Log GDP per capita}_{t-1} \$" if id==3
+replace `2'_colstring = "" if id==4
 replace `2'_colstring = "Hansen J test" if id==5
 replace `2'_colstring = "AR(2) test" if id==6
 replace `2'_colstring = "Implied cumultative \\ effect of income" if id==7

@@ -97,7 +97,6 @@ def build(ctx):
 
     for f in figures:
 
-
         ctx(
             features='subst',
             source='figures.do',
@@ -110,7 +109,7 @@ def build(ctx):
                 ctx.path_to(ctx, 'OUT_FINAL', 'log',
                             '{}_figures.log'.format(f)),
                 ctx.path_to(ctx, 'OUT_FIGURES',
-                            '{}.png'.format(f))
+                            '{}.eps'.format(f))
             ],
             deps=[
                 ctx.path_to(ctx, 'OUT_DATA', '{}_all.dta'.format(f))

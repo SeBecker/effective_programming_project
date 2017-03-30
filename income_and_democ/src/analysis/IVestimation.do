@@ -40,7 +40,7 @@ Fixed effects 2SLS
 ------------------
 
         .. literalinclude:: ../../src/analysis/IVestimation.do
-            :lines: 150
+            :lines: 152, 164
 
     IV estimation of ${DEPVAR} using either a lag (Trade weighted World Income) or a double lag (Saving Rates) of the specific instument variable as instruments to estimate ${INDEP1}. As always it uses robust standard errors clustered by country.
 
@@ -49,7 +49,7 @@ Fixed effects 2SLS
 ------------------
 
         .. literalinclude:: ../../src/analysis/IVestimation.do
-            :lines: 165
+            :lines: 180, 196
 
     IV estimation of ${DEPVAR} using either a lag (Trade weighted World Income) or a double lag (Saving Rates) of the specific instument variable as instrument to estimate ${INDEP1}. Incontrast to the regression before, this one includes lag ${DEPVAR} as an regressor. As always it uses robust standard errors clustered by country.
 
@@ -59,7 +59,7 @@ Arellano-Bond GMM
 ------------------
 
         .. literalinclude:: ../../src/analysis/IVestimation.do
-            :lines: 177
+            :lines: 215
 
     The regression uses the GMM of Arellano and Bond :cite:`Arellano` to regress ${DEPVAR} on lags of ${INDEP1} and ${DEPVAR} with robust standard errors and time specific dummies. Income is instrumented in the first differenced equation with the first difference of the instrument.
 
@@ -68,7 +68,7 @@ Fixed effects 2SLS
 ------------------
 
         .. literalinclude:: ../../src/analysis/IVestimation.do
-            :lines: 193, 203
+            :lines: 231, 242
 
     IV estimation of ${DEPVAR} using either a lag (Trade weighted World Income) or a double lag (Saving Rates) of the specific instument variable as instrument to estimate ${INDEP1}. In addition to the previous 2SLS estimations this also includes {INDEP4} (Saving Rates) or {INDEP5} (Trade weighted World Income). As always it uses robust standard errors clustered by country.
 
@@ -77,7 +77,7 @@ Fixed effects 2SLS
 ------------------
 
         .. literalinclude:: ../../src/analysis/IVestimation.do
-            :lines: 219, 221 , 236
+            :lines: 257, 265, 274
 
         IV estimation of ${DEPVAR} using either a lag (Trade weighted World Income) or a double lag (Saving Rates) of the specific instument variable as instrument to estimate ${INDEP1}. In contrast to the previous 2SLS regressions this one includes lags, double lags and tripple lags of the specific democracy measure and performs a joint significance test for all three lags (only for Saving Rate Instrument). As always it uses robust standard errors clustered by country.
 
@@ -86,7 +86,7 @@ Fixed effects 2SLS
 ------------------
 
         .. literalinclude:: ../../src/analysis/IVestimation.do
-            :lines: 255, 266
+            :lines: 293, 304
 
         IV estimation of ${DEPVAR} using either a lag and a double lag (Trade weighted World Income) or a double lag and a tripple lag (Saving Rates) of the specific instrument to estimate ${INDEP1}. As always it uses robust standard errors clustered by country.
 
@@ -147,29 +147,67 @@ foreach i in `inst' {
 
     // Table 5/6 column 4 Fixed effects 2SLS with 5-year data and Instrument
 
-    ivreg ${DEPVAR} (L.${INDEP1}=L.(L.`i')) yr* cd*  if ${SAMPLE}==1, cluster(code)
+    if "`i'" == "nsave" {
+
+        ivreg ${DEPVAR} (L.${INDEP1}=L.(L.`i')) yr* cd*  if ${SAMPLE}==1, cluster(code)
+
+        mat `i'_4up = [ . \ . \ _b[L.${INDEP1}] \ _se[L.${INDEP1}]\ . \ .]
+
+        reg L.${INDEP1} L2.(`i') yr* cd* if e(sample), cluster(code)
+
+
+        mat `i'_4do = [. \ . \ . \ . \ _b[L2.`i']  \ _se[L2.`i'] \ . \ . \ . \ . \ . \ . \ e(N) \ e(N_clust) \ e(r2)]
+    }
+
+    else if "`i'" == "worldincome" {
+
+        ivreg ${DEPVAR} (L.${INDEP1}=L.`i') yr* cd*  if ${SAMPLE}==1, cluster(code)
+
+        mat `i'_4up = [ . \ . \ _b[L.${INDEP1}] \ _se[L.${INDEP1}]\ . \ .]
+
+        reg L.${INDEP1} L.(`i') yr* cd* if e(sample), cluster(code)
+
+        mat `i'_4do = [. \ . \ . \ . \ _b[L.`i']  \ _se[L.`i'] \ . \ . \ . \ . \ . \ . \ e(N) \ e(N_clust) \ e(r2)]
+    }
 
 
 
-
-    mat `i'_4up = [ . \ . \ _b[L.${INDEP1}] \ _se[L.${INDEP1}]\ . \ .]
-
-    reg L.${INDEP1} L2.(`i') yr* cd* if e(sample), cluster(code)
-
-
-    mat `i'_4do = [. \ . \ . \ . \ _b[L2.`i']  \ _se[L2.`i'] \ . \ . \ . \ . \ . \ . \ e(N) \ e(N_clust) \ e(r2)]
 
 
     // Table 5/6 column 5 Fixed effects 2SLS (including lagged democracy) with 5-year data and Instrument
 
-    ivreg ${DEPVAR} L.${DEPVAR} yr* cd* (L.${INDEP1}=L.(L.`i')) if ${SAMPLE}==1, cluster(code)
+    if "`i'" == "nsave" {
+        ivreg ${DEPVAR} L.${DEPVAR} yr* cd* (L.${INDEP1}=L.(L.`i')) if ${SAMPLE}==1, cluster(code)
 
-    mat `i'_5up = [ _b[L.${DEPVAR}] \ _se[L.${DEPVAR}] \ _b[L.${INDEP1}] \ _se[L.${INDEP1}]\ . \ .]
+        mat `i'_5up = [ _b[L.${DEPVAR}] \ _se[L.${DEPVAR}] \ _b[L.${INDEP1}] \ _se[L.${INDEP1}]\ . \ .]
 
-    reg L.${INDEP1} L.${DEPVAR} L2.(`i') yr* cd* if e(sample), cluster(code)
+        testnl (_b[L.${INDEP1}]/(1 - _b[L.${DEPVAR}])) = 0
 
+        sca def p= `r(p)'
 
-    mat `i'_5do = [_b[L.${DEPVAR]}] \ _se[L.${DEPVAR}] \ . \ . \ _b[L2.`i'] \ _se[L2.`i'] \ . \ . \ .  \ . \ . \ . \ e(N) \ e(N_clust) \ e(r2)]
+        sca def Inc=(_b[L.${INDEP1}]/(1 - _b[L.${DEPVAR}]))
+
+        reg L.${INDEP1} L.${DEPVAR} L2.(`i') yr* cd* if e(sample), cluster(code)
+
+        mat `i'_5do = [_b[L.${DEPVAR]}] \ _se[L.${DEPVAR}] \ . \ . \ _b[L2.`i'] \ _se[L2.`i'] \ . \ . \ .  \ . \ Inc \ p \ e(N) \ e(N_clust) \ e(r2)]
+    }
+
+    else if "`i'" == "worldincome" {
+        ivreg ${DEPVAR} L.${DEPVAR} yr* cd* (L.${INDEP1}=L.`i') if ${SAMPLE}==1, cluster(code)
+
+        mat `i'_5up = [ _b[L.${DEPVAR}] \ _se[L.${DEPVAR}] \ _b[L.${INDEP1}] \ _se[L.${INDEP1}]\ . \ .]
+
+        testnl (_b[L.${INDEP1}]/(1 - _b[L.${DEPVAR}])) = 0
+
+        sca def p= `r(p)'
+
+        sca def Inc=(_b[L.${INDEP1}]/(1 - _b[L.${DEPVAR}]))
+
+        reg L.${INDEP1} L.${DEPVAR} L.(`i') yr* cd* if e(sample), cluster(code)
+
+        mat `i'_5do = [_b[L.${DEPVAR]}] \ _se[L.${DEPVAR}] \ . \ . \ _b[L.`i'] \ _se[L.`i'] \ . \ . \ .  \ . \ Inc \ p \ e(N) \ e(N_clust) \ e(r2)]
+    }
+
 
 
     // Table 5/6 column 6 Arellano-Bond GMM with 5-year data and Instrument
@@ -286,12 +324,12 @@ foreach i in `inst' {
     gen id = _n
     sort id
     drop if id>6
-    gen str `i'_up_colstring = "Democracy t-1" if id==1
+    gen str `i'_up_colstring = "\$ \text{Democracy}_{t-1} \$" if id==1
     replace `i'_up_colstring = "" if id==2
-    replace `i'_up_colstring = "Log GDP per capita t-1" if id==3
+    replace `i'_up_colstring = "\$ \text{Log GDP per capita}_{t-1} \$" if id==3
     replace `i'_up_colstring = "" if id==4
-    replace `i'_up_colstring = "Labor Share t-1" if id==5 & "`i'" == "nsave"
-    replace `i'_up_colstring = "Trade-weighted democracy t" if id==5 & "`i'" == "worldincome"
+    replace `i'_up_colstring = "\$ \text{Labor Share}_{t-1} \$" if id==5 & "`i'" == "nsave"
+    replace `i'_up_colstring = "\$ \text{Trade-weighted democracy}_{t} \$" if id==5 & "`i'" == "worldincome"
     replace `i'_up_colstring = "" if id==6
 
     keep `i'_up_colstring `i'_up_1 `i'_up_2 `i'_up_3 `i'_up_4 `i'_up_5 `i'_up_6 `i'_up_7 `i'_up_8 `i'_up_9
@@ -307,16 +345,16 @@ foreach i in `inst' {
     gen id = _n
     sort id
     drop if id>15
-    gen str `i'_do_colstring = "Democracy t-1" if id==1
+    gen str `i'_do_colstring = "\$ \text{Democracy}_{t-1} \$" if id==1
     replace `i'_do_colstring = "" if id==2
-    replace `i'_do_colstring = "Labor Share t-1" if id==3 & "`i'"== "nsave"
-    replace `i'_do_colstring = "Trade weighted democracy t" if id==3 & "`i'"== "worldincome"
+    replace `i'_do_colstring = "\$ \text{Labor Share}_{t-1} \$" if id==3 & "`i'"== "nsave"
+    replace `i'_do_colstring = "\$ \text{Trade weighted democracy}_{t-1} \$" if id==3 & "`i'"== "worldincome"
     replace `i'_do_colstring = "" if id==4
-    replace `i'_do_colstring = "Saving rate t-2" if id==5 & "`i'" == "nsave"
-    replace `i'_do_colstring = "Trade-weighted log GDP t-1" if id==5 & "`i'" == "worldincome"
+    replace `i'_do_colstring = "\$ \text{Saving rate}_{t-2} \$" if id==5 & "`i'" == "nsave"
+    replace `i'_do_colstring = " \$ \text{Trade-weighted log GDP}_{t-1} \$" if id==5 & "`i'" == "worldincome"
     replace `i'_do_colstring = "" if id==6
-    replace `i'_do_colstring = "Saving rate t-3" if id==7 & "`i'" == "nsave"
-    replace `i'_do_colstring = "Trade weighted log GDP t-2" if id==7 & "`i'" == "worldincome"
+    replace `i'_do_colstring = "\$ \text{Saving rate}_{t-3} \$" if id==7 & "`i'" == "nsave"
+    replace `i'_do_colstring = "\$ \text{Trade weighted log GDP}_{t-2} \$" if id==7 & "`i'" == "worldincome"
     replace `i'_do_colstring = "" if id==8
     replace `i'_do_colstring = "Hansen J test" if id==9
     replace `i'_do_colstring = "AR(2) test" if id==10
@@ -331,30 +369,6 @@ foreach i in `inst' {
 
 
     save `"${PATH_OUT_ANALYSIS}/`2'_`i'do_IVestimation_results"', replace
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

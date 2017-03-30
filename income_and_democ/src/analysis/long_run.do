@@ -120,9 +120,9 @@ foreach i in 25 50 {
     gen id = _n
     sort id
     drop if id>11
-    gen str POL_`i'_colstring = "Democracy t-1" if id==1
+    gen str POL_`i'_colstring = "\$ \text{Democracy}_{t-1} \$" if id==1
     replace POL_`i'_colstring = "" if id==2
-    replace POL_`i'_colstring = "Log GDP per capita t-1" if id==3
+    replace POL_`i'_colstring = "\$ \text{Log GDP per capita}_{t-1} \$" if id==3
     replace POL_`i'_colstring = "" if id==4
     replace POL_`i'_colstring = "Hansen J test" if id==5
     replace POL_`i'_colstring = "AR(2) test" if id==6

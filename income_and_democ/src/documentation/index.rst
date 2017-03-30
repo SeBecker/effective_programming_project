@@ -5,7 +5,7 @@
 
 
 Welcome to the Replication - Income and Democracy by Acemoglu, Johnson, Robinson and Yared project's documentation!
-================================================
+===================================================================================================================
 
 .. toctree::
     :maxdepth: 15
@@ -16,5 +16,4 @@ Welcome to the Replication - Income and Democracy by Acemoglu, Johnson, Robinson
     analysis
     final
     model_specs
-    library
     references
