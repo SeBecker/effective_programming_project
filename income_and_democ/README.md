@@ -1,4 +1,4 @@
-#Replication Project - Income and Democracy
+# Replication Project - Income and Democracy
 
 This is the Replication project for the *Effective programming practices for Economists* course from the *Wintersemester 2017*.
 
